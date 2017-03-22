@@ -25,7 +25,7 @@ SECRET_KEY = '0%n51sw6_5$*ope2ox=e_^5a4-zv=xq83)j9yr&8*0_xcp6chk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["www.kaiworship.xyz", "api.kaiworship.xyz", "127.0.0.1"]
+ALLOWED_HOSTS = [".kaiworship.xyz", "127.0.0.1"]
 
 
 # Application definition
