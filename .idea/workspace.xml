@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d4222cb1-7647-4f65-87b3-769a9e329786" name="Default" comment="Access control fix">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/admin.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/apps.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/migrations/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/models.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/urls.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/api/views.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/firstsite/urls.py" afterPath="$PROJECT_DIR$/firstsite/urls.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,11 +18,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/firstsite/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="34" lean-forward="false" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+            <state relative-caret-position="270">
+              <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
               <folding>
                 <element signature="e#643#684#0" expanded="true" />
               </folding>
@@ -37,7 +30,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/firstsite/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
@@ -65,8 +58,8 @@
         <option value="$PROJECT_DIR$/api/urls.py" />
         <option value="$PROJECT_DIR$/api/views.py" />
         <option value="$PROJECT_DIR$/firstsite/settings.py" />
-        <option value="$PROJECT_DIR$/firstsite/urls.py" />
         <option value="$PROJECT_DIR$/api/apps.py" />
+        <option value="$PROJECT_DIR$/firstsite/urls.py" />
       </list>
     </option>
   </component>
@@ -519,16 +512,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/firstsite/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="34" lean-forward="false" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
-          <folding>
-            <element signature="e#643#684#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -542,6 +525,16 @@
         <state relative-caret-position="360">
           <caret line="27" column="34" lean-forward="false" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/firstsite/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+          <folding>
+            <element signature="e#643#684#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
