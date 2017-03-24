@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
-
+from utils import lookup
 from django.db import models
 
-# A lookup table thingy here ( states/category -> number)
+
 
 # API call can be implemented by using URLlib2 (https://docs.python.org/2/library/urllib2.html)
 # JSON can be implemented by using JSON library (https://docs.python.org/2/library/json.html)
@@ -10,6 +10,7 @@ from django.db import models
 class RemoteResponseClass:
     def __init__(self, type, categories, states, startingDate, endingDate):
         # translate the human readable thing to 0.1 0.2 thing (ABS query)
+        map(lookup, categories)
         # query ABS and get the result
         # if normal
         # we set our own attribute to a normal state thing
