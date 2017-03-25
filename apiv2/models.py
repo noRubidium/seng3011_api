@@ -23,12 +23,14 @@ class RemoteResponse:
         pass
 # sub class and super class python: http://stackoverflow.com/questions/1607612/python-how-do-i-make-a-subclass-from-a-superclass
 class Merchandise(RemoteResponse):
-    def __init__(self, categories, states, startingDate, endingDate):
-        self.type = "merch"
+    type = "merch"
+    def __init__(self,categories, states, startingDate, endingDate):
+        RemoteResponse.__init__(self, Merchandise.type ,categories, states, startingDate, endingDate)
         # super somthing
 
 # same as above
 class Retail(RemoteResponse):
+    type = "Retail"
     def __init__(self, categories, states, startingDate, endingDate):
-        self.type = "retail"
+        RemoteResponse.__init__(self, Retail.type, categories, states, startingDate, endingDate)
         # super somthing
