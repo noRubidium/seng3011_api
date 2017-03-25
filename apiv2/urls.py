@@ -3,19 +3,24 @@ from django.conf.urls import url
 from .mock import mock_views
 from . import views
 
-merchUrl = r'merch/([^/]+)$'
-merchUrlLong = r'merch/([^/]+)/([^/]+)$'
-retailUrlLong = r'retail/([^/]+)/([^/]+)$'
-retailUrl = r'retail/([^/]+)$'
+MERCH = "merch"
+RETAIL = "retail"
 
-urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^' + merchUrl, views.showMerchandiseData, name="merch"),
-    url(r'^' + merchUrlLong, views.showMerchandiseData, name="merch"),
-    url(r'^' + retailUrl, views.showRetailData, name="retail"),
-    url(r'^' + retailUrlLong, views.showRetailData, name="retail"),
-    url(r'^mock/' + merchUrlLong, mock_views.showMerchandiseData, name="merch"),
-    url(r'^mock/' + merchUrl, mock_views.showMerchandiseData, name="merch"),
-    url(r'^mock/' + retailUrlLong, mock_views.showRetailData, name="retail"),
-    url(r'^mock/' + retailUrl, mock_views.showRetailData, name="retail"),
-]
+shortUrl = r'{0}/(?P<categories>[^/]+)/$'
+longUrl = r'{0}/(?P<categories>[^/]+)/(?P<states>[^/]+)/?$'
+
+def makeRoutingWithMock(name, urlbase):
+    def makeRouting(uri, fromModule, methodName):
+        return url(uri, getattr(fromModule, methodName))
+    def pairMaking(methodName):
+        return [makeRouting(r'^' + urlbase.format(name), views, methodName),
+                makeRouting(r'^mock/' + urlbase.format(name), mock_views, methodName)]
+
+    if name == MERCH:
+        return pairMaking("showMerchandiseData")
+    if name == RETAIL:
+        return pairMaking("showRetailData")
+    return []
+
+urlpatterns = [url(r'^$', views.index, name='index')]  + makeRoutingWithMock(MERCH, shortUrl) \
+              + makeRoutingWithMock(MERCH, longUrl) + makeRoutingWithMock(RETAIL, shortUrl) + makeRoutingWithMock(RETAIL, longUrl)
