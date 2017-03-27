@@ -6,9 +6,16 @@ def index(request):
     return HttpResponse("This is the API end point v2.")
 
 
-def showMerchandiseData(request, categories, states="AUS"):
-    return HttpResponse("This is the API end point v2.")
-    # get start/end date from request
+def showMerchandiseData(request, commodities, states="AUS"):
+    startDate = request.GET.get('startDate', 'defaultStartDate')
+    endDate = request.GET.get('endDate', 'defaultEndDate')
+
+    absRequest = "MERCH_EXP" + "/" + convertToAbs(states,getStateNumber) + "." #add state
+    absRequest += convertToAbs(commodities,getCommodityNumber) + "."
+    absRequest += "-1.-.M" #default industry of origin (-1), country of destination (-) and request monthly data (M)
+    absRequest += "/all?startTime=" + startDate + "&endTime=" + endDate
+    return HttpResponse("commodities: " + commodities + " <br>states: " + states + " \
+    <br>startDate: " + startDate + " <br>endDate: " + endDate + " <br>absRequest: " + absRequest)
     # init a Merchandise Object
     # put JSON dump of that
     pass  # return JSON response
@@ -16,12 +23,12 @@ def showMerchandiseData(request, categories, states="AUS"):
 def showRetailData(request, categories, states="AUS"):
     startDate = request.GET.get('startDate', 'defaultStartDate')
     endDate = request.GET.get('endDate', 'defaultEndDate')
-    absRequest = "RT" + "/" + convertStates(states) + "." #add state
+
+    absRequest = "RT" + "/" + convertToAbs(states,getStateNumber) + "." #add state
     absRequest += "2" + "." #add data type
-    absRequest += convertCategories(categories) + "."
+    absRequest += convertToAbs(categories,getCategoryNumber) + "."
     absRequest += "10.M" #default adjustment type (10-original) and request monthly data
     absRequest += "/all?startTime=" + startDate + "&endTime=" + endDate
-    print absRequest
     return HttpResponse("categories: " + categories + " <br>states: " + states + " \
     <br>startDate: " + startDate + " <br>endDate: " + endDate + " <br>absRequest: " + absRequest)
 
@@ -30,25 +37,19 @@ def showRetailData(request, categories, states="AUS"):
     # put JSON dump of that
     pass  # return JSON response
 
-def convertStates(states):
-    splitStates = [x.strip() for x in states.split(',')]
-    convertedString = ""
-    for state in splitStates:
-        convertedString += getStateNumber(str(state)) + "+"
-    return convertedString[:-1]
 
-def convertCategories(categories):
-    splitCategories = [x.strip() for x in categories.split(',')]
+def convertToAbs(string,lookup):
+    splitCategories = [x.strip() for x in string.split(',')]
     convertedString = ""
     for category in splitCategories:
-        convertedString += getCategoryNumber(str(category)) + "+"
+        convertedString += lookup(str(category)) + "+"
     return convertedString[:-1]
 
 def getCategoryNumber(category):
     return {
         'Total': '20',
         'Food': '41',
-        'HousholdGood': '42',
+        'HouseholdGood': '42',
         'ClothingFootwareAndPersonalAccessory': '43',
         'DepartmentStores': '44',
         'CafesResturantsAndTakeawayFood': '46',
@@ -57,6 +58,9 @@ def getCategoryNumber(category):
 
 def getStateNumber(state):
     return {
+        'Total': '-',
+        'NoStateDetails': '9',
+        'ReExports': 'F',
         'AUS': '0',
         'NSW': '1',
         'WA': '5',
@@ -67,3 +71,18 @@ def getStateNumber(state):
         'QLD': '3',
         'NT': '7'
     }.get(state, 'NA')
+
+def getCommodityNumber(category):
+    return {
+        'Total': '-1',
+        'FoodAndLiveAnimals': '0',
+        'BeveragesAndTobacco': '1',
+        'CrudMaterialAndInedible': '2',
+        'MineralFuelLubricentAndRelatedMaterial': '3',
+        'AnimalAndVegitableOilFatAndWaxes': '4',
+        'ChemicalsAndRelatedProducts': '5',
+        'ManufacutedGoods': '6',
+        'MachineryAndTransportEquipments': '7',
+        'OtheranucacturedArticles': '8',
+        'Unclassified': '9'
+    }.get(category, 'NA')
