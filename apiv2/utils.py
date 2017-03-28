@@ -1,15 +1,7 @@
 # A lookup table thingy here ( states/category -> number)
 def lookup(something):
     return something
-
-
-def convertToAbs(string,lookup):
-    splitCategories = [x.strip() for x in string.split(',')]
-    convertedString = ""
-    for category in splitCategories:
-        convertedString += lookup(str(category)) + "+"
-    return convertedString[:-1]
-
+    
 def getCategoryNumber(category):
     return {
         'Total': '20',
@@ -19,7 +11,7 @@ def getCategoryNumber(category):
         'DepartmentStores': '44',
         'CafesResturantsAndTakeawayFood': '46',
         'Other': '45'
-    }.get(category, 'NA')
+    }.get(category, category)
 
 def getStateNumber(state):
     return {
@@ -35,9 +27,9 @@ def getStateNumber(state):
         'TAS': '6',
         'QLD': '3',
         'NT': '7'
-    }.get(state, 'NA')
+    }.get(state, state)
 
-def getCommodityNumber(category):
+def getCommodityNumber(commodity):
     return {
         'Total': '-1',
         'FoodAndLiveAnimals': '0',
@@ -50,4 +42,4 @@ def getCommodityNumber(category):
         'MachineryAndTransportEquipments': '7',
         'OtheranucacturedArticles': '8',
         'Unclassified': '9'
-    }.get(category, 'NA')
+    }.get(commodity, commodity)
