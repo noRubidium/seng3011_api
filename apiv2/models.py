@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from utils import lookup, getCategoryNumber, getStateNumber
+from utils import lookup, getStateNumber, getCategoryNumber, getCommodityNumber
 from django.db import models
 import re
 
