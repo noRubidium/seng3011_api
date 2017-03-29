@@ -34,7 +34,7 @@ class RemoteResponse:
             categoriesString = plus.join(self.categoryNumbers)
 
             # URL Format: url/MERCH_EXP/{states-numbers}.{categories-numbers}.{industry-of-origin}.{country-of-dest}.M(monthly data)/all
-            url = url + 'MERCH_EXP/' + statesString + "." + categoriesString + ".-1.-.M/all"
+            url += 'MERCH_EXP/' + statesString + "." + categoriesString + ".-1.-.M/all"
 
 
         elif (type == 'retail'):
@@ -46,7 +46,7 @@ class RemoteResponse:
             categoriesString = plus.join(self.categoryNumbers)
 
             # URL Format: url/RT/{states-numbers}.{data-type}.{categories-numbers}.{adjustment-type(original/seasonal/trend)}.M(monthly data)/all
-            url = url + 'RT/' + statesString + ".2." + categoriesString + ".10.M/all"
+            url += 'RT/' + statesString + ".2." + categoriesString + ".10.M/all"
 
         
         # query ABS and get the result
