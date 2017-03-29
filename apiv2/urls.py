@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.http import HttpResponse
+from crocs import cross_origin
 
 from .mock import mock_views
 from . import views
@@ -7,8 +8,8 @@ from . import views
 MERCH = "merch"
 RETAIL = "retail"
 
-shortUrl = r'{0}/(?P<categories>[A-Za-z]+)/?$'
-longUrl = r'{0}/(?P<categories>[A-Za-z]+)/(?P<states>[A-Za-z]+)/?$'
+shortUrl = r'{0}/(?P<categories>[A-Za-z,]+)/?$'
+longUrl = r'{0}/(?P<categories>[A-Za-z,]+)/(?P<states>[A-Za-z,]+)/?$'
 
 '''
     Make a pair of routing and the corresponding test routing
@@ -32,7 +33,7 @@ def make_routing_with_mock(name, urlbase):
         return pair_making("showRetailData")
     return []
 
-
+@cross_origin
 def not_found(request):
     return HttpResponse("Please do not try to brute force traverse all the url!", status=404)
 
