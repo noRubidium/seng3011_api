@@ -13,7 +13,7 @@ def parse_merchandise(data):
 		if id == 'REGION':
 			index = 0
 			for state in i['values']:
-				states[index] = state['name']
+				states[index] = state['id']
 				index += 1
 		if id == 'SITC_REV3':
 			index = 0
@@ -69,7 +69,7 @@ def parse_retail(data):
 		if id == 'ASGC_2010':
 			index = 0
 			for state in i['values']:
-				states[index] = state['name']
+				states[index] = state['id']
 				index += 1
 		if id == 'IND_R':
 			index = 0
