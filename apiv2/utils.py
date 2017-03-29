@@ -2,7 +2,7 @@
 def lookup(something):
     return something
     
-def getCategoryNumber(category):
+def get_category_number(category):
     return {
         'Total': '20',
         'Food': '41',
@@ -13,7 +13,7 @@ def getCategoryNumber(category):
         'Other': '45'
     }.get(category, category)
 
-def getStateNumber(state):
+def get_state_number(state):
     return {
         'Total': '-',
         'NoStateDetails': '9',
@@ -29,7 +29,7 @@ def getStateNumber(state):
         'NT': '7'
     }.get(state, state)
 
-def getCommodityNumber(commodity):
+def get_commodity_number(commodity):
     return {
         'Total': '-1',
         'FoodAndLiveAnimals': '0',
