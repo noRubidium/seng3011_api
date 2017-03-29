@@ -9,8 +9,8 @@ def index(request):
 
 
 def showMerchandiseData(request, commodities, states="AUS"):
-    startDate = request.GET.get('startDate', 'defaultStartDate')
-    endDate = request.GET.get('endDate', 'defaultEndDate')
+    startDate = request.GET.get('startDate', None)
+    endDate = request.GET.get('endDate', None)
 
     # init a Merchandise Object (pass in the args needed, look at models.py)
     # get the JSON file with the get_data method or something like that
@@ -19,8 +19,8 @@ def showMerchandiseData(request, commodities, states="AUS"):
     # return JsonResponse(result)
 
 def showRetailData(request, categories, states="AUS"):
-    startDate = request.GET.get('startDate', 'defaultStartDate')
-    endDate = request.GET.get('endDate', 'defaultEndDate')
+    startDate = request.GET.get('startDate', None)
+    endDate = request.GET.get('endDate', None)
 
     # init a Retail Object (pass in the args needed, look at models.py)
     # get the JSON file with the get_data method or something like that

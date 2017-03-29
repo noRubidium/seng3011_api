@@ -2,8 +2,7 @@
 import sys, json
 
 def parse_merchandise(data):
-	tmp = json.loads(data)
-	lookup = tmp['structure']['dimensions']['observation']
+	lookup = data['structure']['dimensions']['observation']
 
 	states = {}
 	commodities = {}
@@ -31,7 +30,7 @@ def parse_merchandise(data):
 	result['MonthlyCommodityExportData'] = [{} for i in range(0,len(commodities))]
 	export_data = result['MonthlyCommodityExportData']
 
-	for dataset in tmp['dataSets']:
+	for dataset in data['dataSets']:
 		for observation, item in dataset['observations'].items():
 			value = item[0]
 			(state, commodity, _, _, _, month) = observation.encode().split(':')
@@ -59,8 +58,7 @@ def parse_merchandise(data):
 
 
 def parse_retail(data):
-	tmp = json.loads(data)
-	lookup = tmp['structure']['dimensions']['observation']
+	lookup = data['structure']['dimensions']['observation']
 
 	states = {}
 	categories = {}
@@ -88,7 +86,7 @@ def parse_retail(data):
 	result['MonthlyRetailData'] = [{} for i in range(0,len(categories))]
 	retail_data = result['MonthlyRetailData']
 
-	for dataset in tmp['dataSets']:
+	for dataset in data['dataSets']:
 		for observation, item in dataset['observations'].items():
 			turnover = item[0]
 			(state, _, category, _, _, month) = observation.encode().split(':')
