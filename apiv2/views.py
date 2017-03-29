@@ -8,7 +8,7 @@ def index(request):
     return HttpResponse("This is the API end point v2.")
 
 
-def showMerchandiseData(request, commodities, states="AUS"):
+def showMerchandiseData(request, categories, states="AUS"):
     startDate = request.GET.get('startDate', None)
     endDate = request.GET.get('endDate', None)
 
