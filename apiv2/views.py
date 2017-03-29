@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from utils import getCommodityNumber,getCategoryNumber,getStateNumber
-from parse import parse_commodity, parse_retail
+from parse import parse_merchandise, parse_retail
 
 # django.json or something...
 
