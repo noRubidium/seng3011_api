@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from utils import getCommodityNumber,getCategoryNumber,getStateNumber
+from utils import get_commodity_number,get_category_number,get_state_number
 
 # django.json or something...
 
@@ -11,8 +11,8 @@ def showMerchandiseData(request, commodities, states="AUS"):
     startDate = request.GET.get('startDate', 'defaultStartDate')
     endDate = request.GET.get('endDate', 'defaultEndDate')
 
-    commoditiesLine = '+'.join((map(getCommodityNumber, commodities.split(','))))
-    stateLine = '+'.join((map(getStateNumber, states.split(','))))
+    commoditiesLine = '+'.join((map(get_commodity_number, commodities.split(','))))
+    stateLine = '+'.join((map(get_state_number, states.split(','))))
 
     absRequest = "MERCH_EXP" + "/" + stateLine + "." #add state
     absRequest += commoditiesLine + "."
@@ -28,8 +28,8 @@ def showRetailData(request, categories, states="AUS"):
     startDate = request.GET.get('startDate', 'defaultStartDate')
     endDate = request.GET.get('endDate', 'defaultEndDate')
 
-    categoryLine = '+'.join((map(getCategoryNumber, commodities.split(','))))
-    stateLine = '+'.join((map(getStateNumber, states.split(','))))
+    categoryLine = '+'.join((map(get_category_number, commodities.split(','))))
+    stateLine = '+'.join((map(get_state_number, states.split(','))))
 
     absRequest = "RT" + "/" + stateLine + "." #add state
     absRequest += "2" + "." #add data type
