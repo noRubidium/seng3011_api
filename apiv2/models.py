@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from utils import lookup, get_state_number, get_category_number, get_commodity_number
 from django.db import models
-import re
+import re, urllib, urllib2, json
 
 
 # API call can be implemented by using URLlib2 (https://docs.python.org/2/library/urllib2.html)
@@ -26,7 +26,6 @@ class RemoteResponse:
 
         if type == 'merch':
             category_numbers = map(get_commodity_number, categories)
-
             plus = "+"
             states_string = plus.join(state_numbers)
             categories_string = plus.join(category_numbers)
@@ -55,8 +54,9 @@ class RemoteResponse:
             self.response_status = "normal"
 
         # else we set ourselves to a error state
-        except:
+        except Exception as e:
             self.response_status = "error"
+            self.response_data = {"erro_info": str(e)}
 
     def get_JSON(self):
         # should be a very easy function in JSON library I believe
@@ -66,11 +66,14 @@ class RemoteResponse:
     def get_status(self):
         return self.response_status
 
-# sub class and super class python: http://stackoverflow.com/questions/1607612/python-how-do-i-make-a-subclass-from-a-superclass
+
+# sub class and super class python:
+# http://stackoverflow.com/questions/1607612/python-how-do-i-make-a-subclass-from-a-superclass
 class Merchandise(RemoteResponse):
     type = 'merch'
     def __init__(self,categories, states, starting_date, ending_date):
         RemoteResponse.__init__(self, Merchandise.type ,categories, states, starting_date, ending_date)
+
 
 # same as above
 class Retail(RemoteResponse):

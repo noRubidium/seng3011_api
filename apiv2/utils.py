@@ -1,7 +1,8 @@
 # A lookup table thingy here ( states/category -> number)
 def lookup(something):
     return something
-    
+
+
 def get_category_number(category):
     return {
         'Total': '20',
@@ -10,8 +11,9 @@ def get_category_number(category):
         'ClothingFootwareAndPersonalAccessory': '43',
         'DepartmentStores': '44',
         'CafesRestaurantsAndTakeawayFood': '46',
-        'Other': '45'
+        'other': '45'
     }.get(category, category)
+
 
 def get_state_number(state):
     return {
@@ -29,6 +31,7 @@ def get_state_number(state):
         'NT': '7'
     }.get(state, state)
 
+
 def get_commodity_number(commodity):
     return {
         'Total': '-1',
@@ -43,6 +46,7 @@ def get_commodity_number(commodity):
         'OtherManufacturedArticles': '8',
         'Unclassified': '9'
     }.get(commodity, commodity)
+
 
 def get_state_name(state):
     return {
@@ -60,6 +64,7 @@ def get_state_name(state):
         '7': 'NT'
     }.get(state, state)
 
+
 def get_state_abbrev(state):
     return {
         '-': 'Total',
@@ -75,6 +80,7 @@ def get_state_abbrev(state):
         'Queensland': 'QLD',
         'Northern Territory': 'NT'
     }.get(state, state)
+
 
 # Need to clean up
 def get_date_end(date):

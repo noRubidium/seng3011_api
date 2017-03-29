@@ -2,6 +2,7 @@
 import sys, json
 
 def parse_merchandise(data):
+	print data
 	lookup = data['structure']['dimensions']['observation']
 
 	states = {}
