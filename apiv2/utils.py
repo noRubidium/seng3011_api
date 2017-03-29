@@ -9,7 +9,7 @@ def get_category_number(category):
         'HouseholdGood': '42',
         'ClothingFootwareAndPersonalAccessory': '43',
         'DepartmentStores': '44',
-        'CafesResturantsAndTakeawayFood': '46',
+        'CafesRestaurantsAndTakeawayFood': '46',
         'Other': '45'
     }.get(category, category)
 
@@ -34,12 +34,12 @@ def get_commodity_number(commodity):
         'Total': '-1',
         'FoodAndLiveAnimals': '0',
         'BeveragesAndTobacco': '1',
-        'CrudMaterialAndInedible': '2',
-        'MineralFuelLubricentAndRelatedMaterial': '3',
-        'AnimalAndVegitableOilFatAndWaxes': '4',
+        'CrudeMaterialAndInedible': '2',
+        'MineralFuelLubricantAndRelatedMaterial': '3',
+        'AnimalAndVegetableOilFatAndWaxes': '4',
         'ChemicalsAndRelatedProducts': '5',
-        'ManufacutedGoods': '6',
+        'ManufacturedGoods': '6',
         'MachineryAndTransportEquipments': '7',
-        'OtheranucacturedArticles': '8',
+        'OtherManufacturedArticles': '8',
         'Unclassified': '9'
     }.get(commodity, commodity)
