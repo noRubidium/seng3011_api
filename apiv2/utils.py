@@ -175,7 +175,7 @@ def get_date_end(date):
         'Oct':year + '-10-31',
         'Nov':year + '-11-30',
         'Dec':year + '-12-31',
-    }.get(dateArray[0], date)
+    }.get(month, date)
 
 
 def is_leap_year(year):
