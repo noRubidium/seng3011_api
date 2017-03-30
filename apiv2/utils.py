@@ -52,6 +52,31 @@ COMMODITIES = {
 
 AVAILABLE_COMMODITIES = COMMODITIES.keys()
 
+REVERSE_CATEGORIES = {
+        '20': 'Total',
+        '41': 'Food',
+        '42': 'HouseholdGood',
+        '43': 'ClothingFootwareAndPersonalAccessory',
+        '44': 'DepartmentStores',
+        '46': 'CafesRestaurantsAndTakeawayFood',
+        '45': 'other'
+    }
+
+REVERSE_COMMODITIES = {
+        '-1': 'Total',
+        '0': 'FoodAndLiveAnimals',
+        '1': 'BeveragesAndTobacco',
+        '2': 'CrudeMaterialAndInedible',
+        '3': 'MineralFuelLubricantAndRelatedMaterial',
+        '4': 'AnimalAndVegetableOilFatAndWaxes',
+        '5': 'ChemicalsAndRelatedProducts',
+        '6': 'ManufacturedGoods',
+        '7': 'MachineryAndTransportEquipments',
+        '8': 'OtherManufacturedArticles',
+        '9': 'Unclassified'
+    }
+
+
 
 def get_category_number(category):
     try:
@@ -92,6 +117,22 @@ def get_state_name(state):
         '7': 'Northern Territory'
     }.get(state, state)
 
+def get_state_abbrev_from_id(state):
+    return {
+        '-': 'AUS',
+        '9': 'NoStateDetails',
+        'F': 'ReExports',
+        '0': 'AUS',
+        '1': 'NSW',
+        '5': 'WA',
+        '4': 'SA',
+        '8': 'ACT',
+        '2': 'VIC',
+        '6': 'TAS',
+        '3': 'QLD',
+        '7': 'NT'
+    }.get(state, state)
+
 
 def get_state_abbrev(state):
     return {
@@ -112,20 +153,39 @@ def get_state_abbrev(state):
 
 # Need to clean up
 def get_date_end(date):
-    dateArray = date.split("-")
+    date_array = date.split("-")
+    month = date_array[0]
+    year = date_array[1]
+
+    if is_leap_year(int(year)):
+        last_feb = '29'
+    else:
+        last_feb = '28'
+
     return {
-        'Jan':'31-Jan-' + dateArray[1],
-        'Feb':'28-Feb-' + dateArray[1],
-        'Mar':'31-Mar-' + dateArray[1],
-        'Apr':'30-Apr-' + dateArray[1],
-        'May':'31-May-' + dateArray[1],
-        'Jun':'30-Jun-' + dateArray[1],
-        'Jul':'31-Jul-' + dateArray[1],
-        'Aug':'31-Aug-' + dateArray[1],
-        'Sep':'30-Sep-' + dateArray[1],
-        'Oct':'31-Oct-' + dateArray[1],
-        'Nov':'30-Nov-' + dateArray[1],
-        'Dec':'31-Dec-' + dateArray[1],
+        'Jan':year + '-01-31',
+        'Feb':year + '-02-' + last_feb,
+        'Mar':year + '-03-31',
+        'Apr':year + '-04-30',
+        'May':year + '-05-31',
+        'Jun':year + '-06-30',
+        'Jul':year + '-07-31',
+        'Aug':year + '-08-31',
+        'Sep':year + '-09-30',
+        'Oct':year + '-10-31',
+        'Nov':year + '-11-30',
+        'Dec':year + '-12-31',
     }.get(dateArray[0], date)
 
+
+def is_leap_year(year):
+    if year % 100 == 0:
+        return year % 400 == 0
+    return year % 4 == 0
+
+def reverse_map_categories(category):
+    return REVERSE_CATEGORIES[category]
+
+def reverse_map_commodities(commodity):
+    return REVERSE_COMMODITIES[commodity]
 

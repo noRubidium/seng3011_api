@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import sys, json
-from utils import get_state_name
+from utils import get_date_end, get_state_abbrev_from_id
 
 def parse_merchandise(data):
 	print data
@@ -48,12 +48,12 @@ def parse_merchandise(data):
 
 			regional_data = table['regional_data'][state]
 			if 'state' not in regional_data:
-				regional_data['state'] = get_state_name(str(states[state]))
+				regional_data['state'] = get_state_abbrev_from_id(str(states[state]))
 			if 'data' not in regional_data:
 				regional_data['data'] = [{} for i in range(0, len(months))]
 
 			export = regional_data['data'][month]
-			export['date'] = str(months[month])
+			export['date'] = get_date_end(months[month])
 			export['value'] = value
 
 	return result
@@ -104,12 +104,12 @@ def parse_retail(data):
 
 			regional_data = table['regional_data'][state]
 			if 'state' not in regional_data:
-				regional_data['state'] = get_state_name(str(states[state]))
+				regional_data['state'] = get_state_abbrev_from_id(str(states[state]))
 			if 'data' not in regional_data:
 				regional_data['data'] = [{} for i in range(0, len(months))]
 
 			export = regional_data['data'][month]
-			export['date'] = str(months[month])
+			export['date'] = get_date_end(months[month])
 			export['turnover'] = turnover
 
 	return result
