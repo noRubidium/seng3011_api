@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import sys, json
-from utils import get_date_end, get_state_abbrev_from_id
+from utils import get_date_end, get_state_abbrev_from_id, reverse_map_categories, reverse_map_commodities
 
 def parse_merchandise(data):
 	print data
@@ -20,7 +20,7 @@ def parse_merchandise(data):
 		if id == 'SITC_REV3':
 			index = 0
 			for commodity in i['values']:
-				commodities[index] = commodity['name']
+				commodities[index] = commodity['id']
 				index += 1
 		if id == 'TIME_PERIOD':
 			index = 0
@@ -42,7 +42,7 @@ def parse_merchandise(data):
 
 			table = export_data[commodity]
 			if 'commodity' not in table:
-				table['commodity'] = str(commodities[commodity])
+				table['commodity'] = reverse_map_commodities(commodities[commodity])
 			if 'regional_data' not in table:
 				table['regional_data'] = [{} for i in range(0, len(states))]
 
@@ -76,7 +76,7 @@ def parse_retail(data):
 		if id == 'IND_R':
 			index = 0
 			for category in i['values']:
-				categories[index] = category['name']
+				categories[index] = category['id']
 				index += 1
 		if id == 'TIME_PERIOD':
 			index = 0
@@ -98,7 +98,7 @@ def parse_retail(data):
 
 			table = retail_data[category]
 			if 'category' not in table:
-				table['category'] = str(categories[category])
+				table['category'] = reverse_map_categories(categories[category])
 			if 'regional_data' not in table:
 				table['regional_data'] = [{} for i in range(0, len(states))]
 
