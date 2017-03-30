@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from utils import get_commodity_number, get_category_number, get_state_number
+from utils import get_commodity_number, get_category_number, get_state_number, LookupNotFoundError
 from parse import parse_merchandise, parse_retail
 from crocs import cross_origin
 from models import Merchandise, Retail
@@ -26,7 +26,10 @@ def showMerchandiseData(request, categories, states="Total"):
     states_list = states.split(',')
     # init a Merchandise Object
     # get the JSON file with the get_data method or something like that
-    merch = Merchandise(categories_list, states_list, startDate, endDate)
+    try:
+        merch = Merchandise(categories_list, states_list, startDate, endDate)
+    except LookupNotFoundError as e:
+        return HttpResponse(str(e), status=404)
     # merch.get_data()
     j = merch.get_JSON()
     if merch.response_status == "error":
@@ -51,7 +54,10 @@ def showRetailData(request, categories, states="AUS"):
 
     # init a Retail Object
     # get the JSON file with the get_data method or something like that
-    retail = Retail(categories_list, states_list, startDate, endDate)
+    try:
+        retail = Retail(categories_list, states_list, startDate, endDate)
+    except LookupNotFoundError as e:
+        return HttpResponse(str(e), status=404)
     # retail.get_data()
     j = retail.get_JSON()
     if retail.response_status == "error":
