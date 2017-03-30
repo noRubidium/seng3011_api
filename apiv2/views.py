@@ -13,7 +13,7 @@ def index(request):
 
 
 @cross_origin
-def showMerchandiseData(request, categories, states="Total"):
+def showMerchandiseData(request, categories, states="AUS"):
     now = datetime.datetime.now()
     prev_year = now - datetime.timedelta(days=365)
 
@@ -38,7 +38,7 @@ def showMerchandiseData(request, categories, states="Total"):
 
 
 @cross_origin
-def showRetailData(request, categories, states="Total"):
+def showRetailData(request, categories, states="AUS"):
     now = datetime.datetime.now()
     prev_year = now - datetime.timedelta(days=365)
 
@@ -53,7 +53,9 @@ def showRetailData(request, categories, states="Total"):
     # get the JSON file with the get_data method or something like that
     retail = Retail(categories_list, states_list, startDate, endDate)
     # retail.get_data()
-
-    result = parse_retail(retail.get_JSON())
+    j = retail.get_JSON()
+    if retail.response_status == "error":
+        return JsonResponse(j)
+    result = parse_retail(j)
     # return JsonResponse({"categories":categories, "states":states, "start": startDate, "end": endDate})
     return JsonResponse(result)
