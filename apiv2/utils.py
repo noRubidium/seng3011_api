@@ -1,22 +1,25 @@
 # A lookup table thingy here ( states/category -> number)
-def lookup(something):
-    return something
+
+class LookupNotFoundError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
 
 
-def get_category_number(category):
-    return {
-        'Total': '20',
-        'Food': '41',
-        'HouseholdGood': '42',
-        'ClothingFootwareAndPersonalAccessory': '43',
-        'DepartmentStores': '44',
-        'CafesRestaurantsAndTakeawayFood': '46',
-        'other': '45'
-    }.get(category, category)
+CATEGORIES = {
+            'Total': '20',
+            'Food': '41',
+            'HouseholdGood': '42',
+            'ClothingFootwareAndPersonalAccessory': '43',
+            'DepartmentStores': '44',
+            'CafesRestaurantsAndTakeawayFood': '46',
+            'other': '45'
+        }
 
+AVAILABLE_CATEGORIES = CATEGORIES.keys()
 
-def get_state_number(state):
-    return {
+STATES = {
         'Total': '-',
         'NoStateDetails': '9',
         'ReExports': 'F',
@@ -29,11 +32,11 @@ def get_state_number(state):
         'TAS': '6',
         'QLD': '3',
         'NT': '7'
-    }.get(state, state)
+    }
 
+AVAILABLE_STATES = STATES.keys()
 
-def get_commodity_number(commodity):
-    return {
+COMMODITIES = {
         'Total': '-1',
         'FoodAndLiveAnimals': '0',
         'BeveragesAndTobacco': '1',
@@ -45,7 +48,32 @@ def get_commodity_number(commodity):
         'MachineryAndTransportEquipments': '7',
         'OtherManufacturedArticles': '8',
         'Unclassified': '9'
-    }.get(commodity, commodity)
+    }
+
+AVAILABLE_COMMODITIES = COMMODITIES.keys()
+
+
+def get_category_number(category):
+    try:
+        return CATEGORIES[category]
+    except KeyError as e:
+        raise LookupNotFoundError('The type you are requiring ({0}) doesn\'t exist. You should choose from {1}'
+                        .format(category,AVAILABLE_CATEGORIES))
+
+def get_state_number(state):
+    try:
+        return STATES[state]
+    except KeyError as e:
+        raise LookupNotFoundError('The type you are requiring ({0}) doesn\'t exist.  You should choose from {1}'
+                        .format(state, AVAILABLE_STATES))
+
+
+def get_commodity_number(commodity):
+    try:
+        return COMMODITIES[commodity]
+    except KeyError as e:
+        raise LookupNotFoundError('The type you are requiring ({0}) doesn\'t exist.  You should choose from {1}'
+                        .format(commodity, AVAILABLE_COMMODITIES))
 
 
 def get_state_name(state):
