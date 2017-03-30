@@ -5,8 +5,8 @@ from crocs import cross_origin
 from .mock import mock_views
 from . import views
 
-MERCH = "merch"
-RETAIL = "retail"
+MERCH = "MerchandiseExports"
+RETAIL = "Retail"
 
 shortUrl = r'{0}/(?P<categories>[A-Za-z,]+)/?$'
 longUrl = r'{0}/(?P<categories>[A-Za-z,]+)/(?P<states>[A-Za-z,]+)/?$'
