@@ -53,15 +53,15 @@ def get_state_name(state):
         '-': 'Total',
         '9': 'NoStateDetails',
         'F': 'ReExports',
-        '0': 'AUS',
-        '1': 'NSW',
-        '5': 'WA',
-        '4': 'SA',
-        '8': 'ACT',
-        '2': 'VIC',
-        '6': 'TAS',
-        '3': 'QLD',
-        '7': 'NT'
+        '0': 'Australia',
+        '1': 'New South Wales',
+        '5': 'Western Australia',
+        '4': 'South Australia',
+        '8': 'Australia Capital Territory',
+        '2': 'Victoria',
+        '6': 'Tasmania',
+        '3': 'Queensland',
+        '7': 'Northern Territory'
     }.get(state, state)
 
 

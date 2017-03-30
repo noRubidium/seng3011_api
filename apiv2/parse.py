@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sys, json
+from utils import get_state_name
 
 def parse_merchandise(data):
 	print data
@@ -47,7 +48,7 @@ def parse_merchandise(data):
 
 			regional_data = table['regional_data'][state]
 			if 'state' not in regional_data:
-				regional_data['state'] = str(states[state])
+				regional_data['state'] = get_state_name(str(states[state]))
 			if 'data' not in regional_data:
 				regional_data['data'] = [{} for i in range(0, len(months))]
 
@@ -103,7 +104,7 @@ def parse_retail(data):
 
 			regional_data = table['regional_data'][state]
 			if 'state' not in regional_data:
-				regional_data['state'] = str(states[state])
+				regional_data['state'] = get_state_name(str(states[state]))
 			if 'data' not in regional_data:
 				regional_data['data'] = [{} for i in range(0, len(months))]
 
