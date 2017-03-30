@@ -13,7 +13,7 @@ def index(request):
 
 
 @cross_origin
-def showMerchandiseData(request, categories, states="AUS"):
+def showMerchandiseData(request, categories, states="Total"):
     now = datetime.datetime.now()
     prev_year = now - datetime.timedelta(days=365)
 
