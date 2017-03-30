@@ -20,7 +20,7 @@ def get_state_number(state):
         'Total': '-',
         'NoStateDetails': '9',
         'ReExports': 'F',
-        'AUS': '0',
+        'AUS': '-',
         'NSW': '1',
         'WA': '5',
         'SA': '4',
