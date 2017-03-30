@@ -48,6 +48,7 @@ class RemoteResponse:
         # if normal
         # we set our own attribute to a normal state thing
         try:
+            print url + "?" + data
             req = urllib2.Request(url + "?" + data, None, headers)
             response = urllib2.urlopen(req)
             self.response_data = json.loads(response.read())
