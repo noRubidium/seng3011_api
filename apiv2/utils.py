@@ -70,7 +70,7 @@ def get_state_abbrev(state):
         '-': 'Total',
         '9': 'NoStateDetails',
         'F': 'ReExports',
-        '0': 'AUS',
+        'Whole Australia': 'AUS',
         'New South Wales': 'NSW',
         'Western Australia': 'WA',
         'South Australia': 'SA',
