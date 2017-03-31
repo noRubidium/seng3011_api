@@ -56,8 +56,6 @@ class RemoteResponse:
             self.response_data = {"error_info": str(e)}
 
     def get_JSON(self):
-        # should be a very easy function in JSON library I believe
-        # pass in self
         return self.response_data
 
     def get_status(self):
