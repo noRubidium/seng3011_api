@@ -53,7 +53,7 @@ class RemoteResponse:
         # else we set ourselves to a error state
         except Exception as e:
             self.response_status = "error"
-            self.response_data = {"erro_info": str(e)}
+            self.response_data = {"error_info": str(e)}
 
     def get_JSON(self):
         # should be a very easy function in JSON library I believe
