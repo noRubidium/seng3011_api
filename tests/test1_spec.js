@@ -1,8 +1,8 @@
 var frisby = require('frisby')
 var data = require('./test_data/test_1_output.json')
-
+var URL_VERSION = process.env.URL
 frisby.create('RT/Food Method')
-          .get('http://127.0.0.1:8000/v2/Retail/Food/')
+          .get(URL_VERSION + 'Retail/Food/')
           .expectStatus(200)
           .expectHeaderContains('content-type', 'application/json')
           .expectJSON(data)
