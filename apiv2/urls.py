@@ -28,9 +28,9 @@ def make_routing_with_mock(name, urlbase):
                 make_routing(r'^mock/' + urlbase.format(name), mock_views, method_name)]
 
     if name == MERCH:
-        return pair_making("showMerchandiseData")
+        return pair_making("show_merchandise_data")
     if name == RETAIL:
-        return pair_making("showRetailData")
+        return pair_making("show_retail_data")
     return []
 
 @cross_origin
