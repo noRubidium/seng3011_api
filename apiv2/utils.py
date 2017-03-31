@@ -198,12 +198,12 @@ def reverse_map_commodities(commodity):
 def get_state_number_retail(state):
     result = get_state_number(state)
     if result == '-':
-        return '9'
+        return '0'
     return result
 
 
 def get_state_number_merch(state):
     result = get_state_number(state)
-    if result == '9':
+    if result == '0':
         return '-'
     return result
