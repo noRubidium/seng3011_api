@@ -1,0 +1,58 @@
+{
+  "MonthlyRetailData": [
+    {
+      "category": "Food retailing",
+      "regional_data": [
+        {
+          "state": "Australia",
+          "data": [
+            {
+              "date": "Mar-2016",
+              "turnover": 10354
+            },
+            {
+              "date": "Apr-2016",
+              "turnover": 9727.9
+            },
+            {
+              "date": "May-2016",
+              "turnover": 9815.2
+            },
+            {
+              "date": "Jun-2016",
+              "turnover": 9516.5
+            },
+            {
+              "date": "Jul-2016",
+              "turnover": 9928.5
+            },
+            {
+              "date": "Aug-2016",
+              "turnover": 10041.9
+            },
+            {
+              "date": "Sep-2016",
+              "turnover": 10005.7
+            },
+            {
+              "date": "Oct-2016",
+              "turnover": 10482.6
+            },
+            {
+              "date": "Nov-2016",
+              "turnover": 10435.7
+            },
+            {
+              "date": "Dec-2016",
+              "turnover": 12230.1
+            },
+            {
+              "date": "Jan-2017",
+              "turnover": 10431.5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
