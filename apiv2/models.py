@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from utils import get_state_number, get_category_number, get_commodity_number
+from utils import get_state_number_retail, get_state_number_merch, get_category_number, get_commodity_number
 from django.db import models
 import re, urllib, urllib2, json
 
@@ -27,7 +27,7 @@ class RemoteResponse:
 
             # translate the human readable thing to 0.1 0.2 thing (ABS query)
             # note we are using get_state_number directly.. not using utils.lookup
-            state_numbers = map(get_state_number, states)
+            state_numbers = map(get_state_number_merch, states)
             states_string = plus.join(state_numbers)
 
             # URL Format: url/MERCH_EXP/{states-numbers}.{categories-numbers}.{industry-of-origin}.{country-of-dest}.M(monthly data)/all
@@ -40,7 +40,7 @@ class RemoteResponse:
 
             # translate the human readable thing to 0.1 0.2 thing (ABS query)
             # note we are using get_state_number directly.. not using utils.lookup
-            state_numbers = map(get_state_number, states)
+            state_numbers = map(get_state_number_retail, states)
             states_string = plus.join(state_numbers)
             # URL Format: url/RT/{states-numbers}.{data-type}.{categories-numbers}.{adjustment-type(original/seasonal/trend)}.M(monthly data)/all
             url += 'RT/' + states_string + ".2." + categories_string + ".10.M/all"

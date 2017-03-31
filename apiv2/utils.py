@@ -1,8 +1,10 @@
 # A lookup table thingy here ( states/category -> number)
 
+
 class LookupNotFoundError(Exception):
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)
 
@@ -31,7 +33,8 @@ STATES = {
         'VIC': '2',
         'TAS': '6',
         'QLD': '3',
-        'NT': '7'
+        'NT': '7',
+        '': '-'
     }
 
 AVAILABLE_STATES = STATES.keys()
@@ -163,18 +166,18 @@ def get_date_end(date):
         last_feb = '28'
 
     return {
-        'Jan':year + '-01-31',
-        'Feb':year + '-02-' + last_feb,
-        'Mar':year + '-03-31',
-        'Apr':year + '-04-30',
-        'May':year + '-05-31',
-        'Jun':year + '-06-30',
-        'Jul':year + '-07-31',
-        'Aug':year + '-08-31',
-        'Sep':year + '-09-30',
-        'Oct':year + '-10-31',
-        'Nov':year + '-11-30',
-        'Dec':year + '-12-31',
+        'Jan': year + '-01-31',
+        'Feb': year + '-02-' + last_feb,
+        'Mar': year + '-03-31',
+        'Apr': year + '-04-30',
+        'May': year + '-05-31',
+        'Jun': year + '-06-30',
+        'Jul': year + '-07-31',
+        'Aug': year + '-08-31',
+        'Sep': year + '-09-30',
+        'Oct': year + '-10-31',
+        'Nov': year + '-11-30',
+        'Dec': year + '-12-31',
     }.get(month, date)
 
 
@@ -183,9 +186,24 @@ def is_leap_year(year):
         return year % 400 == 0
     return year % 4 == 0
 
+
 def reverse_map_categories(category):
     return REVERSE_CATEGORIES[category]
+
 
 def reverse_map_commodities(commodity):
     return REVERSE_COMMODITIES[commodity]
 
+
+def get_state_number_retail(state):
+    result = get_state_number(state)
+    if result == '-':
+        return '9'
+    return result
+
+
+def get_state_number_merch(state):
+    result = get_state_number(state)
+    if result == '9':
+        return '-'
+    return result
