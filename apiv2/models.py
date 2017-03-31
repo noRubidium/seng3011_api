@@ -75,3 +75,4 @@ class Retail(RemoteResponse):
     type = 'retail'
     def __init__(self, categories, states, starting_date, ending_date):
         RemoteResponse.__init__(self, Retail.type, categories, states, starting_date, ending_date)
+        

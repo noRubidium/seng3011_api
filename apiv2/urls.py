@@ -42,3 +42,4 @@ urlpatterns = [url(r'^$', views.index, name='index')] \
               + make_routing_with_mock(RETAIL, shortUrl) \
               + make_routing_with_mock(RETAIL, longUrl)\
               + [url(r'.', not_found)]
+              

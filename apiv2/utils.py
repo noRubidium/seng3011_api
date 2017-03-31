@@ -155,4 +155,3 @@ def reverse_map_categories(category):
 
 def reverse_map_commodities(commodity):
     return REVERSE_COMMODITIES[commodity]
-
