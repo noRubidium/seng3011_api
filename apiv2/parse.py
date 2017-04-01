@@ -26,7 +26,7 @@ def parse_merchandise(data):
     commodities = {}
     months = {}
 
-    def private_fun(lookup):
+    def update_result(lookup):
         """
         update the states, commodities and months
         :param lookup: Lookup?
@@ -44,7 +44,7 @@ def parse_merchandise(data):
                     current[index] = curr_item[key_name]
                     index += 1
 
-    private_fun(data['structure']['dimensions']['observation'])
+    update_result(data['structure']['dimensions']['observation'])
     result = {'MonthlyCommodityExportData': [{} for _ in range(0, len(commodities))]}
 
     for dataset in data['dataSets']:

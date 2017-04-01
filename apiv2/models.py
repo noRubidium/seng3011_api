@@ -23,7 +23,7 @@ def date_to_month(date):
 
 class RemoteResponse(object):
     """
-        API model type, query from remote ABS API
+    API model type, query from remote ABS API
     """
     type = None
 
