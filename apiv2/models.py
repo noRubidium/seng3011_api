@@ -4,12 +4,8 @@ from django.db import models
 import re, urllib, urllib2, json
 
 
-# API call can be implemented by using URLlib2 (https://docs.python.org/2/library/urllib2.html)
-# JSON can be implemented by using JSON library (https://docs.python.org/2/library/json.html)
 class RemoteResponse:
-    def __init__(self, type, categories, states, starting_date, ending_date):
-
-        
+    def __init__(self, type, categories, states, starting_date, ending_date):        
         # convert 'YYYY-MM-DD' to 'YYYY-MM'
         start_month = re.sub(r'(\d{4}-\d{2})-\d{2}',r'\1', starting_date)
         end_month = re.sub(r'(\d{4}-\d{2})-\d{2}',r'\1', ending_date)
@@ -21,6 +17,7 @@ class RemoteResponse:
         data = urllib.urlencode(values)
         url = 'http://stat.data.abs.gov.au/sdmx-json/data/'
         plus = "+"
+        
         if type == 'merch':
             category_numbers = map(get_commodity_number, categories)
             categories_string = plus.join(category_numbers)
@@ -37,7 +34,6 @@ class RemoteResponse:
             category_numbers = map(get_category_number, categories)
             categories_string = plus.join(category_numbers)
 
-
             # translate the human readable thing to 0.1 0.2 thing (ABS query)
             # note we are using get_state_number directly.. not using utils.lookup
             state_numbers = map(get_state_number_retail, states)
@@ -46,7 +42,6 @@ class RemoteResponse:
             url += 'RT/' + states_string + ".2." + categories_string + ".10.M/all"
 
         # query ABS and get the result
-
         # if normal
         # we set our own attribute to a normal state thing
         try:
@@ -55,15 +50,12 @@ class RemoteResponse:
             response = urllib2.urlopen(req)
             self.response_data = json.loads(response.read())
             self.response_status = "normal"
-
         # else we set ourselves to a error state
         except Exception as e:
             self.response_status = "error"
-            self.response_data = {"erro_info": str(e)}
+            self.response_data = {"error_info": str(e)}
 
     def get_JSON(self):
-        # should be a very easy function in JSON library I believe
-        # pass in self
         return self.response_data
 
     def get_status(self):
@@ -83,4 +75,4 @@ class Retail(RemoteResponse):
     type = 'retail'
     def __init__(self, categories, states, starting_date, ending_date):
         RemoteResponse.__init__(self, Retail.type, categories, states, starting_date, ending_date)
-        # super somthing
+        
