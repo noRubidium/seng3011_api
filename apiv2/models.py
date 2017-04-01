@@ -1,44 +1,61 @@
+"""
+Model handles all the API calls stuff
+"""
 from __future__ import unicode_literals
-from utils import get_state_number_retail, get_state_number_merch, get_category_number, get_commodity_number
-from django.db import models
-import re, urllib, urllib2, json
+# from django.db import models
+import json
+import re
+import urllib
+import urllib2
+
+from .utils import get_state_number_retail, get_state_number_merch, \
+    get_category_number, get_commodity_number, LookupNotFoundError
 
 
-class RemoteResponse:
-    def __init__(self, type, categories, states, starting_date, ending_date):        
-        # convert 'YYYY-MM-DD' to 'YYYY-MM'
-        start_month = re.sub(r'(\d{4}-\d{2})-\d{2}',r'\1', starting_date)
-        end_month = re.sub(r'(\d{4}-\d{2})-\d{2}',r'\1', ending_date)
+def date_to_month(date):
+    """
+    Change from date to month
+    :param date: String 'YYYY-MM-DD'
+    :return: 'YYYY-MM'
+    """
+    return re.sub(r'(\d{4}-\d{2})-\d{2}', r'\1', date)
 
-        # common variables used for abs api query 
-        user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
-        headers = {'User-Agent': user_agent}
-        values = {'startTime': start_month, 'endTime': end_month, 'dimensionAtObservation': 'allDimensions'}
+
+class RemoteResponse(object):
+    """
+        API model type, query from remote ABS API
+    """
+    type = None
+
+    def __init__(self, categories, states, starting_date, ending_date):
+        # common variables used for abs api query
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'}
+        values = {'startTime': date_to_month(starting_date),
+                  'endTime': date_to_month(ending_date),
+                  'dimensionAtObservation': 'allDimensions'}
         data = urllib.urlencode(values)
         url = 'http://stat.data.abs.gov.au/sdmx-json/data/'
         plus = "+"
-        
-        if type == 'merch':
-            category_numbers = map(get_commodity_number, categories)
-            categories_string = plus.join(category_numbers)
+
+        if self.type == 'merch':
+            categories_string = plus.join(map(get_commodity_number, categories))
 
             # translate the human readable thing to 0.1 0.2 thing (ABS query)
             # note we are using get_state_number directly.. not using utils.lookup
-            state_numbers = map(get_state_number_merch, states)
-            states_string = plus.join(state_numbers)
+            states_string = plus.join(map(get_state_number_merch, states))
 
-            # URL Format: url/MERCH_EXP/{states-numbers}.{categories-numbers}.{industry-of-origin}.{country-of-dest}.M(monthly data)/all
+            # URL Format: url/MERCH_EXP/{states-numbers}.{categories-numbers}
+            # .{industry-of-origin}.{country-of-dest}.M(monthly data)/all
             url += 'MERCH_EXP/' + states_string + "." + categories_string + ".-1.-.M/all"
 
-        elif type == 'retail':
-            category_numbers = map(get_category_number, categories)
-            categories_string = plus.join(category_numbers)
+        elif self.type == 'retail':
+            categories_string = plus.join(map(get_category_number, categories))
 
             # translate the human readable thing to 0.1 0.2 thing (ABS query)
             # note we are using get_state_number directly.. not using utils.lookup
-            state_numbers = map(get_state_number_retail, states)
-            states_string = plus.join(state_numbers)
-            # URL Format: url/RT/{states-numbers}.{data-type}.{categories-numbers}.{adjustment-type(original/seasonal/trend)}.M(monthly data)/all
+            states_string = plus.join(map(get_state_number_retail, states))
+            # URL Format: url/RT/{states-numbers}.{data-type}.{categories-numbers}
+            # .{adjustment-type(original/seasonal/trend)}.M(monthly data)/all
             url += 'RT/' + states_string + ".2." + categories_string + ".10.M/all"
 
         # query ABS and get the result
@@ -51,28 +68,42 @@ class RemoteResponse:
             self.response_data = json.loads(response.read())
             self.response_status = "normal"
         # else we set ourselves to a error state
-        except Exception as e:
+        except LookupNotFoundError as error:
             self.response_status = "error"
-            self.response_data = {"error_info": str(e)}
+            self.response_data = {"error_info": str(error)}
 
-    def get_JSON(self):
+    def get_json(self):
+        """
+        :return: Return json of response
+        """
         return self.response_data
 
     def get_status(self):
+        """
+        :return: check if the api call exit normally
+        """
         return self.response_status
 
 
 # sub class and super class python:
 # http://stackoverflow.com/questions/1607612/python-how-do-i-make-a-subclass-from-a-superclass
 class Merchandise(RemoteResponse):
+    """
+    Merchandise Data Type
+    """
     type = 'merch'
-    def __init__(self,categories, states, starting_date, ending_date):
-        RemoteResponse.__init__(self, Merchandise.type ,categories, states, starting_date, ending_date)
+
+    def __init__(self, categories, states, starting_date, ending_date):
+        RemoteResponse.__init__(self, categories, states, starting_date, ending_date)
 
 
 # same as above
 class Retail(RemoteResponse):
+    """
+    Retail data type
+    """
     type = 'retail'
+
     def __init__(self, categories, states, starting_date, ending_date):
-        RemoteResponse.__init__(self, Retail.type, categories, states, starting_date, ending_date)
+        RemoteResponse.__init__(self, categories, states, starting_date, ending_date)
         
