@@ -18,7 +18,6 @@ longUrl = r'{0}/(?P<categories>[A-Za-z,]+)/(?P<states>[A-Za-z,]+)/?$'
     :return a list of two url matching
 '''
 
-
 def make_routing_with_mock(name, urlbase):
     def make_routing(uri, from_module, method_name):
         return url(uri, getattr(from_module, method_name)) # getattr takes method out of the module
@@ -28,9 +27,9 @@ def make_routing_with_mock(name, urlbase):
                 make_routing(r'^mock/' + urlbase.format(name), mock_views, method_name)]
 
     if name == MERCH:
-        return pair_making("showMerchandiseData")
+        return pair_making("show_merchandise_data")
     if name == RETAIL:
-        return pair_making("showRetailData")
+        return pair_making("show_retail_data")
     return []
 
 @cross_origin
@@ -43,3 +42,4 @@ urlpatterns = [url(r'^$', views.index, name='index')] \
               + make_routing_with_mock(RETAIL, shortUrl) \
               + make_routing_with_mock(RETAIL, longUrl)\
               + [url(r'.', not_found)]
+              

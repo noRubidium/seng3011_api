@@ -5,6 +5,7 @@ class LookupNotFoundError(Exception):
     def __init__(self, value):
         self.value = value
 
+
     def __str__(self):
         return repr(self.value)
 
@@ -38,6 +39,21 @@ STATES = {
     }
 
 AVAILABLE_STATES = STATES.keys()
+
+REVERSE_STATES = {
+        '-': 'Total',
+        '9': 'NoStateDetails',
+        'F': 'ReExports',
+        '0': 'AUS',
+        '1': 'NSW',
+        '5': 'WA',
+        '4': 'SA',
+        '8': 'ACT',
+        '2': 'VIC',
+        '6': 'TAS',
+        '3': 'QLD',
+        '7': 'NT'
+    }
 
 COMMODITIES = {
         'Total': '-1',
@@ -80,7 +96,6 @@ REVERSE_COMMODITIES = {
     }
 
 
-
 def get_category_number(category):
     try:
         return CATEGORIES[category]
@@ -102,57 +117,6 @@ def get_commodity_number(commodity):
     except KeyError as e:
         raise LookupNotFoundError('The type you are requiring ({0}) doesn\'t exist.  You should choose from {1}'
                         .format(commodity, AVAILABLE_COMMODITIES))
-
-
-def get_state_name(state):
-    return {
-        '-': 'Total',
-        '9': 'NoStateDetails',
-        'F': 'ReExports',
-        '0': 'Australia',
-        '1': 'New South Wales',
-        '5': 'Western Australia',
-        '4': 'South Australia',
-        '8': 'Australia Capital Territory',
-        '2': 'Victoria',
-        '6': 'Tasmania',
-        '3': 'Queensland',
-        '7': 'Northern Territory'
-    }.get(state, state)
-
-def get_state_abbrev_from_id(state):
-    return {
-        '-': 'AUS',
-        '9': 'NoStateDetails',
-        'F': 'ReExports',
-        '0': 'AUS',
-        '1': 'NSW',
-        '5': 'WA',
-        '4': 'SA',
-        '8': 'ACT',
-        '2': 'VIC',
-        '6': 'TAS',
-        '3': 'QLD',
-        '7': 'NT'
-    }.get(state, state)
-
-
-def get_state_abbrev(state):
-    return {
-        '-': 'Total',
-        '9': 'NoStateDetails',
-        'F': 'ReExports',
-        'Whole Australia': 'AUS',
-        'New South Wales': 'NSW',
-        'Western Australia': 'WA',
-        'South Australia': 'SA',
-        'Australian Capital Territory': 'ACT',
-        'Victoria': 'VIC',
-        'Tasmania': 'TAS',
-        'Queensland': 'QLD',
-        'Northern Territory': 'NT'
-    }.get(state, state)
-
 
 # Need to clean up
 def get_date_end(date):
@@ -186,6 +150,8 @@ def is_leap_year(year):
         return year % 400 == 0
     return year % 4 == 0
 
+def get_state_name(state):
+    return REVERSE_STATES[state]
 
 def reverse_map_categories(category):
     return REVERSE_CATEGORIES[category]
