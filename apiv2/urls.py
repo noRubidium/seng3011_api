@@ -56,10 +56,9 @@ def not_found(_):
     """
     return HttpResponse("Please do not try to brute force traverse all the url!", status=404)
 
-urlpatterns = [url(r'^$', views.index, name='index')] \
-              + make_routing_with_mock(MERCH, SHORT_URL) \
+urlpatterns = [url(r'^$', views.index, name='index')]
+urlpatterns += make_routing_with_mock(MERCH, SHORT_URL) \
               + make_routing_with_mock(MERCH, LONG_URL) \
               + make_routing_with_mock(RETAIL, SHORT_URL) \
               + make_routing_with_mock(RETAIL, LONG_URL)\
               + [url(r'.', not_found)]
-              

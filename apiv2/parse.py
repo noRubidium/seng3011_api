@@ -6,45 +6,58 @@ import json
 from .utils import get_date_end, get_state_name, reverse_map_categories, reverse_map_commodities
 
 
+def to_int_list(observation):
+    """
+    Change observation to int list
+    :param observation: "0:0"
+    :return: list of int
+    """
+    return [int(i) for i in observation.encode().split(':')]
+
+
 def parse_merchandise(data):
     """
     parse the merchandise json response data
     :param data: json data
     :return: json object of cleaned up data
     """
-    lookup = data['structure']['dimensions']['observation']
 
     states = {}
     commodities = {}
     months = {}
-    merch_switch = {
-        'REGION': (states, 'id'),
-        'SITC_REV3': (commodities, 'id'),
-        'TIME_PERIOD': (months, 'name')
-    }
-    for i in lookup:
-        key_id = i['id']
-        (curr, key_name) = merch_switch.get(key_id, (None, None))
-        if curr is not None:
-            index = 0
-            for item in i['values']:
-                curr[index] = item[key_name]
-                index += 1
 
+    def private_fun(lookup):
+        """
+        update the states, commodities and months
+        :param lookup: Lookup?
+        """
+        merch_switch = {
+            'REGION': (states, 'id'),
+            'SITC_REV3': (commodities, 'id'),
+            'TIME_PERIOD': (months, 'name')
+        }
+        for i in lookup:
+            (current, key_name) = merch_switch.get(i['id'], (None, None))
+            if current is not None:
+                index = 0
+                for curr_item in i['values']:
+                    current[index] = curr_item[key_name]
+                    index += 1
+
+    private_fun(data['structure']['dimensions']['observation'])
     result = {'MonthlyCommodityExportData': [{} for _ in range(0, len(commodities))]}
-    export_data = result['MonthlyCommodityExportData']
 
     for dataset in data['dataSets']:
         for observation, item in dataset['observations'].items():
-            (state, commodity, _, _, _, month) = [int(i) for i in observation.encode().split(':')]
+            (state, commodity, _, _, _, month) = to_int_list(observation)
 
-            table = export_data[commodity]
-            if 'commodity' not in table:
-                table['commodity'] = reverse_map_commodities(commodities[commodity])
-            if 'regional_data' not in table:
-                table['regional_data'] = [{} for _ in range(0, len(states))]
+            curr = result['MonthlyCommodityExportData'][commodity]
+            if 'commodity' not in curr:
+                curr['commodity'] = reverse_map_commodities(commodities[commodity])
+            if 'regional_data' not in curr:
+                curr['regional_data'] = [{} for _ in range(0, len(states))]
 
-            regional_data = table['regional_data'][state]
+            regional_data = curr['regional_data'][state]
             if 'state' not in regional_data:
                 regional_data['state'] = get_state_name(str(states[state]))
             if 'data' not in regional_data:
@@ -62,50 +75,44 @@ def parse_retail(data):
     :param data: json data
     :return: json object of cleaned up data
     """
-    lookup = data['structure']['dimensions']['observation']
 
     states = {}
     categories = {}
     months = {}
-    retail_switch = {
-        'ASGC_2010': (states, 'id'),
-        'IND_R': (categories, 'id'),
-        'TIME_PERIOD': (months, 'name')
-    }
 
-    for i in lookup:
-        key_id = i['id']
-        (curr, key_name) = retail_switch.get(key_id, (None, None))
-        if curr is not None:
-            index = 0
-            for item in i['values']:
-                curr[index] = item[key_name]
-                index += 1
-                # if key_id == 'IND_R':
-                #     index = 0
-                #     for category in i['values']:
-                #         categories[index] = category['id']
-                #         index += 1
-                # if key_id == 'TIME_PERIOD':
-                #     index = 0
-                #     for month in i['values']:
-                #         months[index] = month['name']
-                #         index += 1
+    def update_lookup(lookup):
+        """
+        update the states, commodities and months
+        :param lookup: Lookup?
+        """
+        retail_switch = {
+            'ASGC_2010': (states, 'id'),
+            'IND_R': (categories, 'id'),
+            'TIME_PERIOD': (months, 'name')
+        }
 
+        for i in lookup:
+            (curr, key_name) = retail_switch.get(i['id'], (None, None))
+            if curr is not None:
+                index = 0
+                for item in i['values']:
+                    curr[index] = item[key_name]
+                    index += 1
+
+    update_lookup(data['structure']['dimensions']['observation'])
     result = {'MonthlyRetailData': [{} for _ in range(0, len(categories))]}
-    retail_data = result['MonthlyRetailData']
 
     for dataset in data['dataSets']:
         for observation, item in dataset['observations'].items():
-            (state, _, category, _, _, month) = [int(i) for i in observation.encode().split(':')]
+            (state, _, category, _, _, month) = to_int_list(observation)
 
-            table = retail_data[category]
-            if 'category' not in table:
-                table['category'] = reverse_map_categories(categories[category])
-            if 'regional_data' not in table:
-                table['regional_data'] = [{} for _ in xrange(0, len(states))]
+            curr = result['MonthlyRetailData'][category]
+            if 'category' not in curr:
+                curr['category'] = reverse_map_categories(categories[category])
+            if 'regional_data' not in curr:
+                curr['regional_data'] = [{} for _ in xrange(0, len(states))]
 
-            regional_data = table['regional_data'][state]
+            regional_data = curr['regional_data'][state]
             if 'state' not in regional_data:
                 regional_data['state'] = get_state_name(str(states[state]))
             if 'data' not in regional_data:
