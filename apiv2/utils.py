@@ -1,7 +1,8 @@
 """
     A lookup table thingy here ( states/category -> number)
 """
-
+import re
+import datetime
 
 class LookupNotFoundError(Exception):
     """
@@ -11,8 +12,20 @@ class LookupNotFoundError(Exception):
         Exception.__init__(self, value)
         self.value = value
 
-    def __str__(self):
-        return repr(self.value)
+    def to_json(self):
+        return {'error': self.value}
+
+
+class InvalidDateError(Exception):
+    """
+    The error when lookup failed
+    """
+    def __init__(self, value):
+        Exception.__init__(self, value)
+        self.value = value
+
+    def to_json(self):
+        return {'error': self.value}
 
 
 CATEGORIES = {
@@ -29,8 +42,6 @@ AVAILABLE_CATEGORIES = CATEGORIES.keys()
 
 STATES = {
     'Total': '-',
-    'NoStateDetails': '9',
-    'ReExports': 'F',
     'AUS': '0',
     'NSW': '1',
     'WA': '5',
@@ -39,16 +50,13 @@ STATES = {
     'VIC': '2',
     'TAS': '6',
     'QLD': '3',
-    'NT': '7',
-    '': '-'
+    'NT': '7'
 }
 
 AVAILABLE_STATES = STATES.keys()
 
 REVERSE_STATES = {
     '-': 'Total',
-    '9': 'NoStateDetails',
-    'F': 'ReExports',
     '0': 'AUS',
     '1': 'NSW',
     '5': 'WA',
@@ -101,7 +109,7 @@ REVERSE_COMMODITIES = {
 }
 
 ERROR_FMT = 'The type you are requiring ({0}) doesn\'t exist. You should choose from {1}'
-
+DATE_ERROR = 'Date is invalid. Dates should be YYYY-MM-DD'
 
 def get_category_number(category):
     """
@@ -221,3 +229,21 @@ def get_state_number_merch(state):
     if result == '0':
         return '-'
     return result
+
+
+def validate_date(start_date, end_date):
+    """
+    :param state_date: start date, end_date: end date
+    """
+    # because having YYYY-M-DD will pass the datetime strptime
+    if not re.match('^\d{4}-\d{2}-\d{2}$', start_date) or not re.match('^\d{4}-\d{2}-\d{2}$', end_date):
+        raise InvalidDateError(DATE_ERROR)
+
+    try:
+        start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+        end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+        if start > end:
+            raise InvalidDateError('Start date should be before end date')
+    except ValueError:
+        raise InvalidDateError(DATE_ERROR)
+
