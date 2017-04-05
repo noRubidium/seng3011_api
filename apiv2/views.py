@@ -39,7 +39,7 @@ def show_merchandise_data(request, categories, states="Total"):
     except InvalidDateError as error:
         return JsonResponse(error.to_json(), status=404)
 
-    # String to list
+    # string to list
     categories_list = categories.split(',')
     states_list = states.split(',')
 
