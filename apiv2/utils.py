@@ -162,8 +162,8 @@ def get_commodity_number(commodity):
 # Need to clean up
 def get_date_end(date):
     """
-    :param date: 'YYYY-MM-DD'
-    :return: the last day of the month
+    :param date: 'Mth-YYYY'
+    :return: the last date of the month
     """
     date_array = date.split("-")
     month = date_array[0]
