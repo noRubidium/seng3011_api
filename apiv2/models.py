@@ -9,7 +9,8 @@ import urllib
 import urllib2
 
 from .utils import get_state_number_retail, get_state_number_merch, \
-    get_category_number, get_commodity_number, LookupNotFoundError
+    get_category_number, get_commodity_number, validate_date, \
+    LookupNotFoundError, InvalidDateError
 
 
 def date_to_month(date):
@@ -29,6 +30,8 @@ class RemoteResponse(object):
 
     def __init__(self, categories, states, starting_date, ending_date):
         # common variables used for abs api query
+        validate_date(starting_date, ending_date)
+
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'}
         values = {'startTime': date_to_month(starting_date),
                   'endTime': date_to_month(ending_date),

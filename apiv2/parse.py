@@ -41,7 +41,7 @@ def parse_merchandise(data):
                 current[index] = curr_item[key_name]
                 index += 1
 
-    result = {'MonthlyCommodityExportData': [{} for _ in range(len(commodities))]}
+    result = {'MonthlyCommodityExportData': [{} for _ in xrange(len(commodities))]}
 
     for dataset in data['dataSets']:
         for observation, item in dataset['observations'].items():
@@ -51,13 +51,13 @@ def parse_merchandise(data):
             if 'commodity' not in curr:
                 curr['commodity'] = reverse_map_commodities(commodities[commodity])
             if 'regional_data' not in curr:
-                curr['regional_data'] = [{} for _ in range(len(states))]
+                curr['regional_data'] = [{} for _ in xrange(len(states))]
 
             regional_data = curr['regional_data'][state]
             if 'state' not in regional_data:
                 regional_data['state'] = get_state_name(states[state])
             if 'data' not in regional_data:
-                regional_data['data'] = [{} for _ in range(len(months))]
+                regional_data['data'] = [{} for _ in xrange(len(months))]
 
             regional_data['data'][month]['date'] = get_date_end(months[month])
             regional_data['data'][month]['value'] = item[0]
@@ -91,7 +91,7 @@ def parse_retail(data):
                 curr[index] = item[key_name]
                 index += 1
 
-    result = {'MonthlyRetailData': [{} for _ in range(len(categories))]}
+    result = {'MonthlyRetailData': [{} for _ in xrange(len(categories))]}
 
     for dataset in data['dataSets']:
         for observation, item in dataset['observations'].items():
@@ -101,13 +101,13 @@ def parse_retail(data):
             if 'category' not in curr:
                 curr['category'] = reverse_map_categories(categories[category])
             if 'regional_data' not in curr:
-                curr['regional_data'] = [{} for _ in range(len(states))]
+                curr['regional_data'] = [{} for _ in xrange(len(states))]
 
             regional_data = curr['regional_data'][state]
             if 'state' not in regional_data:
                 regional_data['state'] = get_state_name(states[state])
             if 'data' not in regional_data:
-                regional_data['data'] = [{} for _ in range(len(months))]
+                regional_data['data'] = [{} for _ in xrange(len(months))]
 
             regional_data['data'][month]['date'] = get_date_end(months[month])
             regional_data['data'][month]['turnover'] = item[0]
