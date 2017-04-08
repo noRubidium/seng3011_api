@@ -7,10 +7,15 @@ import json
 import re
 import urllib
 import urllib2
+import logging
+import time
 
 from .utils import get_state_number_retail, get_state_number_merch, \
     get_category_number, get_commodity_number, LookupNotFoundError
 
+# configure logging formatting
+logging.basicConfig(filename="all_events.log", level=logging.DEBUG, format="%(asctime)s: %(levelname)s: %(message)s")
+logger = logging.getLogger(__name__)
 
 def date_to_month(date):
     """
@@ -63,14 +68,20 @@ class RemoteResponse(object):
         # we set our own attribute to a normal state thing
         try:
             print url + "?" + data
+            start_time = time.time()
+            logger.info("Making ABS call: {}?{}".format(url, data))
             req = urllib2.Request(url + "?" + data, None, headers)
             response = urllib2.urlopen(req)
+            end_time = time.time()
+            ms_elapsed = (end_time - start_time)*1000
             self.response_data = json.loads(response.read())
             self.response_status = "normal"
+            logger.info("ABS Response OK: '{}?{}'. Time taken: {}ms".format(url, data, ms_elapsed))
         # else we set ourselves to a error state
         except LookupNotFoundError as error:
             self.response_status = "error"
             self.response_data = {"error_info": str(error)}
+            logger.info("ABS Response ERROR: '{}?{}': ".format(url, data, error))
 
     def get_json(self):
         """
