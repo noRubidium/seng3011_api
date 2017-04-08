@@ -108,7 +108,7 @@ def show_retail_data(request, categories, states="AUS"):
 
     # end timer and log successful response
     end_time = time.time()
-    ms_elapsed = (start_time - end_time)*1000
+    ms_elapsed = (end_time - start_time)*1000
     logging.info("HTTP 200: Request '{}' successfully returned. Time taken: {}ms".format(request.get_full_path(), ms_elapsed))
     
     return JsonResponse(result)
