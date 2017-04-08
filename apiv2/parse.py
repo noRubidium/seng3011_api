@@ -12,7 +12,7 @@ def to_int_list(observation):
     :param observation: "0:0"
     :return: list of int
     """
-    return [int(i) for i in observation.encode().split(':')]
+    return map(int, observation.encode().split(':'))
 
 
 def parse_merchandise(data):
@@ -25,6 +25,12 @@ def parse_merchandise(data):
     states = {}
     commodities = {}
     months = {}
+
+    merch_switch = {
+        'REGION': (states, 'id'),
+        'SITC_REV3': (commodities, 'id'),
+        'TIME_PERIOD': (months, 'name')
+    }
 
     def update_result(lookup):
         """
@@ -45,7 +51,7 @@ def parse_merchandise(data):
                     index += 1
 
     update_result(data['structure']['dimensions']['observation'])
-    result = {'MonthlyCommodityExportData': [{} for _ in range(0, len(commodities))]}
+    result = {'MonthlyCommodityExportData': [{} for _ in xrange(len(commodities))]}
 
     for dataset in data['dataSets']:
         for observation, item in dataset['observations'].items():
@@ -55,13 +61,13 @@ def parse_merchandise(data):
             if 'commodity' not in curr:
                 curr['commodity'] = reverse_map_commodities(commodities[commodity])
             if 'regional_data' not in curr:
-                curr['regional_data'] = [{} for _ in range(0, len(states))]
+                curr['regional_data'] = [{} for _ in xrange(len(states))]
 
             regional_data = curr['regional_data'][state]
             if 'state' not in regional_data:
-                regional_data['state'] = get_state_name(str(states[state]))
+                regional_data['state'] = get_state_name(states[state])
             if 'data' not in regional_data:
-                regional_data['data'] = [{} for _ in range(0, len(months))]
+                regional_data['data'] = [{} for _ in xrange(len(months))]
 
             regional_data['data'][month]['date'] = get_date_end(months[month])
             regional_data['data'][month]['value'] = item[0]
@@ -79,6 +85,12 @@ def parse_retail(data):
     states = {}
     categories = {}
     months = {}
+
+    retail_switch = {
+        'ASGC_2010': (states, 'id'),
+        'IND_R': (categories, 'id'),
+        'TIME_PERIOD': (months, 'name')
+    }
 
     def update_lookup(lookup):
         """
@@ -100,7 +112,7 @@ def parse_retail(data):
                     index += 1
 
     update_lookup(data['structure']['dimensions']['observation'])
-    result = {'MonthlyRetailData': [{} for _ in range(0, len(categories))]}
+    result = {'MonthlyRetailData': [{} for _ in xrange(len(categories))]}
 
     for dataset in data['dataSets']:
         for observation, item in dataset['observations'].items():
@@ -110,13 +122,13 @@ def parse_retail(data):
             if 'category' not in curr:
                 curr['category'] = reverse_map_categories(categories[category])
             if 'regional_data' not in curr:
-                curr['regional_data'] = [{} for _ in xrange(0, len(states))]
+                curr['regional_data'] = [{} for _ in xrange(len(states))]
 
             regional_data = curr['regional_data'][state]
             if 'state' not in regional_data:
-                regional_data['state'] = get_state_name(str(states[state]))
+                regional_data['state'] = get_state_name(states[state])
             if 'data' not in regional_data:
-                regional_data['data'] = [{} for _ in xrange(0, len(months))]
+                regional_data['data'] = [{} for _ in xrange(len(months))]
 
             regional_data['data'][month]['date'] = get_date_end(months[month])
             regional_data['data'][month]['turnover'] = item[0]
@@ -125,9 +137,9 @@ def parse_retail(data):
 
 
 if __name__ == '__main__':
-    TEST_DATA_FILE = open("./test_data/merch_test", 'r')
+    TEST_DATA_FILE = open('./test_data/merch_test', 'r')
     print json.dumps(parse_merchandise(json.loads(TEST_DATA_FILE.read())))
     TEST_DATA_FILE.close()
-    TEST_DATA_FILE = open("./test_data/retail_test", 'r')
+    TEST_DATA_FILE = open('./test_data/retail_test', 'r')
     print json.dumps(parse_retail(json.loads(TEST_DATA_FILE.read())))
     TEST_DATA_FILE.close()

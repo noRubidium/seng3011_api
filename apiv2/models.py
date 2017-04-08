@@ -9,7 +9,8 @@ import urllib
 import urllib2
 
 from .utils import get_state_number_retail, get_state_number_merch, \
-    get_category_number, get_commodity_number, LookupNotFoundError
+    get_category_number, get_commodity_number, validate_date, \
+    LookupNotFoundError, InvalidDateError
 
 
 def date_to_month(date):
@@ -28,6 +29,8 @@ class RemoteResponse(object):
     type = None
 
     def __init__(self, categories, states, starting_date, ending_date):
+        validate_date(starting_date, ending_date)
+
         # common variables used for abs api query
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'}
         values = {'startTime': date_to_month(starting_date),
@@ -35,7 +38,7 @@ class RemoteResponse(object):
                   'dimensionAtObservation': 'allDimensions'}
         data = urllib.urlencode(values)
         url = 'http://stat.data.abs.gov.au/sdmx-json/data/'
-        plus = "+"
+        plus = '+'
 
         if self.type == 'merch':
             categories_string = plus.join(map(get_commodity_number, categories))
@@ -62,15 +65,15 @@ class RemoteResponse(object):
         # if normal
         # we set our own attribute to a normal state thing
         try:
-            print url + "?" + data
-            req = urllib2.Request(url + "?" + data, None, headers)
+            print url + '?' + data
+            req = urllib2.Request(url + '?' + data, None, headers)
             response = urllib2.urlopen(req)
             self.response_data = json.loads(response.read())
-            self.response_status = "normal"
+            self.response_status = 'normal'
         # else we set ourselves to a error state
         except LookupNotFoundError as error:
-            self.response_status = "error"
-            self.response_data = {"error_info": str(error)}
+            self.response_status = 'error'
+            self.response_data = {'error': str(error)}
 
     def get_json(self):
         """
