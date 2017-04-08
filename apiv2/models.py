@@ -38,7 +38,7 @@ class RemoteResponse(object):
                   'dimensionAtObservation': 'allDimensions'}
         data = urllib.urlencode(values)
         url = 'http://stat.data.abs.gov.au/sdmx-json/data/'
-        plus = "+"
+        plus = '+'
 
         if self.type == 'merch':
             categories_string = plus.join(map(get_commodity_number, categories))
@@ -65,15 +65,15 @@ class RemoteResponse(object):
         # if normal
         # we set our own attribute to a normal state thing
         try:
-            print url + "?" + data
-            req = urllib2.Request(url + "?" + data, None, headers)
+            print url + '?' + data
+            req = urllib2.Request(url + '?' + data, None, headers)
             response = urllib2.urlopen(req)
             self.response_data = json.loads(response.read())
-            self.response_status = "normal"
+            self.response_status = 'normal'
         # else we set ourselves to a error state
         except LookupNotFoundError as error:
-            self.response_status = "error"
-            self.response_data = {"error_info": str(error)}
+            self.response_status = 'error'
+            self.response_data = {'error': str(error)}
 
     def get_json(self):
         """

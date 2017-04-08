@@ -137,9 +137,9 @@ def parse_retail(data):
 
 
 if __name__ == '__main__':
-    TEST_DATA_FILE = open("./test_data/merch_test", 'r')
+    TEST_DATA_FILE = open('./test_data/merch_test', 'r')
     print json.dumps(parse_merchandise(json.loads(TEST_DATA_FILE.read())))
     TEST_DATA_FILE.close()
-    TEST_DATA_FILE = open("./test_data/retail_test", 'r')
+    TEST_DATA_FILE = open('./test_data/retail_test', 'r')
     print json.dumps(parse_retail(json.loads(TEST_DATA_FILE.read())))
     TEST_DATA_FILE.close()

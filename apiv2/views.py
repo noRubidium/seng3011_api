@@ -16,7 +16,7 @@ def index(request):
     :param request: http request
     :return: http response
     """
-    return HttpResponse("This is the API end point v2. Request is:" + str(request))
+    return HttpResponse('This is the API end point v2. Request is:' + str(request))
 
 
 @cross_origin
@@ -44,7 +44,7 @@ def show_merchandise_data(request, categories, states="Total"):
         return JsonResponse(error.to_json(), status=404)
 
     merch_json = merch.get_json()
-    if merch.response_status == "error":
+    if merch.response_status == 'error':
         return JsonResponse(merch_json)
 
     result = parse_merchandise(merch_json)
@@ -52,7 +52,7 @@ def show_merchandise_data(request, categories, states="Total"):
 
 
 @cross_origin
-def show_retail_data(request, categories, states="AUS"):
+def show_retail_data(request, categories, states='AUS'):
     """
     get the request, return retail data
     :param request: contain date
@@ -78,7 +78,7 @@ def show_retail_data(request, categories, states="AUS"):
         return JsonResponse(error.to_json(), status=404)
 
     retail_json = retail.get_json()
-    if retail.response_status == "error":
+    if retail.response_status == 'error':
         return JsonResponse(retail_json)
 
     result = parse_retail(retail_json)
