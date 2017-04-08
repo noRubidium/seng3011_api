@@ -13,8 +13,10 @@ import time
 from .utils import get_state_number_retail, get_state_number_merch, \
     get_category_number, get_commodity_number, LookupNotFoundError
 
+current_date = time.strftime("%Y-%m-%d")
+
 # configure logging formatting
-logging.basicConfig(filename="all_events.log", level=logging.DEBUG, format="%(asctime)s: %(levelname)s: %(message)s")
+logging.basicConfig(filename="{}.log".format(current_date), level=logging.DEBUG, format="%(asctime)s: %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 def date_to_month(date):

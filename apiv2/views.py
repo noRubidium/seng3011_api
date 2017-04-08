@@ -11,10 +11,10 @@ from .parse import parse_merchandise, parse_retail
 from .crocs import cross_origin
 from .models import Merchandise, Retail
 
-
+current_date = time.strftime("%Y-%m-%d")
 
 # configure logging formatting
-logging.basicConfig(filename="all_events.log", level=logging.DEBUG, format="%(asctime)s: %(levelname)s: %(message)s")
+logging.basicConfig(filename="{}.log".format(current_date), level=logging.DEBUG, format="%(asctime)s: %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
