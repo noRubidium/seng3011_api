@@ -5,13 +5,25 @@ The view layer of the API, handle string beautify and stuff
 import datetime
 import logging
 import time
+import os
 from django.http import HttpResponse, JsonResponse
 from .utils import LookupNotFoundError
 from .parse import parse_merchandise, parse_retail
 from .crocs import cross_origin
 from .models import Merchandise, Retail
 
+# get the current date
 current_date = time.strftime("%Y-%m-%d")
+current_log_file = "{}.log".format(current_date)
+
+# header to add to the start of log file
+log_header = "Australian Statistics API\nLog file for date: {}\nDeveloper Team: Eleven51\n\n".format(current_date)
+
+# add header if current date's log file does not exist or is empty
+if not os.path.isfile(current_log_file) or os.stat(current_log_file).st_size==0:
+    file = open(current_log_file, 'w+')
+    file.write(log_header)
+    file.close()
 
 # configure logging formatting
 logging.basicConfig(filename="{}.log".format(current_date), level=logging.DEBUG, format="%(asctime)s: %(levelname)s: %(message)s")
