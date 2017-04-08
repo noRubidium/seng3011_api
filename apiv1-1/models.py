@@ -9,7 +9,7 @@ import urllib
 import urllib2
 
 from .utils import get_state_number_retail, get_state_number_merch, \
-    get_category_number, get_commodity_number
+    get_category_number, get_commodity_number, LookupNotFoundError
 
 
 def date_to_month(date):
@@ -61,11 +61,16 @@ class RemoteResponse(object):
         # query ABS and get the result
         # if normal
         # we set our own attribute to a normal state thing
-        print url + "?" + data
-        req = urllib2.Request(url + "?" + data, None, headers)
-        response = urllib2.urlopen(req)
-        self.response_data = json.loads(response.read())
-        self.response_status = "normal"
+        try:
+            print url + "?" + data
+            req = urllib2.Request(url + "?" + data, None, headers)
+            response = urllib2.urlopen(req)
+            self.response_data = json.loads(response.read())
+            self.response_status = "normal"
+        # else we set ourselves to a error state
+        except LookupNotFoundError as error:
+            self.response_status = "error"
+            self.response_data = {"error_info": str(error)}
 
     def get_json(self):
         """
