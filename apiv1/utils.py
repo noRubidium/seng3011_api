@@ -111,9 +111,6 @@ END_DATES = {
 AVAILABLE_MONTHS = END_DATES.keys()
 
 
-ERROR_FMT = 'The type you are requiring ({0}) doesn\'t exist. You should choose from {1}'
-
-
 def get_category_number(category):
     """
     :param category: name of category
@@ -122,7 +119,7 @@ def get_category_number(category):
     try:
         return CATEGORIES[category]
     except KeyError:
-        raise LookupNotFoundError(ERROR_FMT.format(category, AVAILABLE_CATEGORIES))
+        return category
 
 
 def get_state_number(state):
