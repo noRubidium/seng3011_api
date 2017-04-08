@@ -109,7 +109,8 @@ REVERSE_COMMODITIES = {
 }
 
 ERROR_FMT = 'The type you are requiring ({0}) doesn\'t exist. You should choose from {1}'
-DATE_ERROR = 'Date is invalid. Dates should be YYYY-MM-DD'
+DATE_FORMAT_ERROR = '{0} date is invalid. Dates should be YYYY-MM-DD'
+DATE_ERROR = '{0} date is invalid. There is no such date {1}.'
 
 def get_category_number(category):
     """
@@ -236,14 +237,22 @@ def validate_date(start_date, end_date):
     :param state_date: start date, end_date: end date
     """
     # because having YYYY-M-DD will pass the datetime strptime
-    if not re.match('^\d{4}-\d{2}-\d{2}$', start_date) or not re.match('^\d{4}-\d{2}-\d{2}$', end_date):
-        raise InvalidDateError(DATE_ERROR)
+    if not re.match('^\d{4}-\d{2}-\d{2}$', start_date):
+        raise InvalidDateError(DATE_FORMAT_ERROR.format('Start'))
 
     try:
         start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-        end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-        if start > end:
-            raise InvalidDateError('Start date should be before end date')
     except ValueError:
-        raise InvalidDateError(DATE_ERROR)
+        raise InvalidDateError(DATE_ERROR.format('Start', start_date))
+
+    if not re.match('^\d{4}-\d{2}-\d{2}$', end_date):
+        raise InvalidDateError(DATE_FORMAT_ERROR.format('End'))
+
+    try:
+        end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    except ValueError:
+        raise InvalidDateError(DATE_ERROR.format('End', end_date))
+
+    if start > end:
+        raise InvalidDateError('Start date should be before end date')
 

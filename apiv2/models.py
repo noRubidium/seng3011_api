@@ -29,9 +29,9 @@ class RemoteResponse(object):
     type = None
 
     def __init__(self, categories, states, starting_date, ending_date):
-        # common variables used for abs api query
         validate_date(starting_date, ending_date)
 
+        # common variables used for abs api query
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'}
         values = {'startTime': date_to_month(starting_date),
                   'endTime': date_to_month(ending_date),

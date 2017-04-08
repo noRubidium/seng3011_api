@@ -32,15 +32,25 @@ def parse_merchandise(data):
         'TIME_PERIOD': (months, 'name')
     }
 
-    lookup = data['structure']['dimensions']['observation']
-    for i in lookup:
-        (current, key_name) = merch_switch.get(i['id'], (None, None))
-        if current is not None:
-            index = 0
-            for curr_item in i['values']:
-                current[index] = curr_item[key_name]
-                index += 1
+    def update_result(lookup):
+        """
+        update the states, commodities and months
+        :param lookup: Lookup?
+        """
+        merch_switch = {
+            'REGION': (states, 'id'),
+            'SITC_REV3': (commodities, 'id'),
+            'TIME_PERIOD': (months, 'name')
+        }
+        for i in lookup:
+            (current, key_name) = merch_switch.get(i['id'], (None, None))
+            if current is not None:
+                index = 0
+                for curr_item in i['values']:
+                    current[index] = curr_item[key_name]
+                    index += 1
 
+    update_result(data['structure']['dimensions']['observation'])
     result = {'MonthlyCommodityExportData': [{} for _ in xrange(len(commodities))]}
 
     for dataset in data['dataSets']:
@@ -82,15 +92,26 @@ def parse_retail(data):
         'TIME_PERIOD': (months, 'name')
     }
 
-    lookup = data['structure']['dimensions']['observation']
-    for i in lookup:
-        (curr, key_name) = retail_switch.get(i['id'], (None, None))
-        if curr is not None:
-            index = 0
-            for item in i['values']:
-                curr[index] = item[key_name]
-                index += 1
+    def update_lookup(lookup):
+        """
+        update the states, commodities and months
+        :param lookup: Lookup?
+        """
+        retail_switch = {
+            'ASGC_2010': (states, 'id'),
+            'IND_R': (categories, 'id'),
+            'TIME_PERIOD': (months, 'name')
+        }
 
+        for i in lookup:
+            (curr, key_name) = retail_switch.get(i['id'], (None, None))
+            if curr is not None:
+                index = 0
+                for item in i['values']:
+                    curr[index] = item[key_name]
+                    index += 1
+
+    update_lookup(data['structure']['dimensions']['observation'])
     result = {'MonthlyRetailData': [{} for _ in xrange(len(categories))]}
 
     for dataset in data['dataSets']:
