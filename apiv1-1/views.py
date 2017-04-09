@@ -3,13 +3,11 @@ The view layer of the API, handle string beautify and stuff
 """
 
 import datetime
-
 from django.http import HttpResponse, JsonResponse
-
+from .utils import LookupNotFoundError
+from .parse import parse_merchandise, parse_retail
 from .crocs import cross_origin
 from .models import Merchandise, Retail
-from .parse import parse_merchandise, parse_retail
-
 
 @cross_origin
 def index(request):
@@ -18,7 +16,7 @@ def index(request):
     :param request: http request
     :return: http response
     """
-    return HttpResponse("This is the API end point v1. Request is:" + str(request))
+    return HttpResponse("This is the API end point v2. Request is:" + str(request))
 
 
 @cross_origin
@@ -40,7 +38,10 @@ def show_merchandise_data(request, categories, states="Total"):
     categories_list = categories.split(',')
     states_list = states.split(',')
 
-    merch = Merchandise(categories_list, states_list, start_date, end_date)
+    try:
+        merch = Merchandise(categories_list, states_list, start_date, end_date)
+    except LookupNotFoundError as error:
+        return HttpResponse(str(error), status=404)
 
     merch_json = merch.get_json()
     if merch.response_status == "error":
@@ -71,7 +72,10 @@ def show_retail_data(request, categories, states="AUS"):
 
     # init a Retail Object
     # get the JSON file with the get_data method or something like that
-    retail = Retail(categories_list, states_list, start_date, end_date)
+    try:
+        retail = Retail(categories_list, states_list, start_date, end_date)
+    except LookupNotFoundError as error:
+        return HttpResponse(str(error), status=404)
 
     retail_json = retail.get_json()
     if retail.response_status == "error":

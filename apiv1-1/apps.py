@@ -9,4 +9,4 @@ class ApiConfig(AppConfig):
     """
     Configuration of the App
     """
-    name = 'apiv1'
+    name = 'apiv1.1'
