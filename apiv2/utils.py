@@ -1,7 +1,8 @@
 """
     A lookup table thingy here ( states/category -> number)
 """
-
+import re
+import datetime
 
 class LookupNotFoundError(Exception):
     """
@@ -11,8 +12,20 @@ class LookupNotFoundError(Exception):
         Exception.__init__(self, value)
         self.value = value
 
-    def __str__(self):
-        return repr(self.value)
+    def to_json(self):
+        return {'error': self.value}
+
+
+class InvalidDateError(Exception):
+    """
+    The error when lookup failed
+    """
+    def __init__(self, value):
+        Exception.__init__(self, value)
+        self.value = value
+
+    def to_json(self):
+        return {'error': self.value}
 
 
 CATEGORIES = {
@@ -29,8 +42,6 @@ AVAILABLE_CATEGORIES = CATEGORIES.keys()
 
 STATES = {
     'Total': '-',
-    'NoStateDetails': '9',
-    'ReExports': 'F',
     'AUS': '0',
     'NSW': '1',
     'WA': '5',
@@ -39,16 +50,13 @@ STATES = {
     'VIC': '2',
     'TAS': '6',
     'QLD': '3',
-    'NT': '7',
-    '': '-'
+    'NT': '7'
 }
 
 AVAILABLE_STATES = STATES.keys()
 
 REVERSE_STATES = {
     '-': 'Total',
-    '9': 'NoStateDetails',
-    'F': 'ReExports',
     '0': 'AUS',
     '1': 'NSW',
     '5': 'WA',
@@ -59,6 +67,8 @@ REVERSE_STATES = {
     '3': 'QLD',
     '7': 'NT'
 }
+
+AVAILABLE_STATE_IDS = REVERSE_STATES.keys()
 
 COMMODITIES = {
     'Total': '-1',
@@ -86,6 +96,8 @@ REVERSE_CATEGORIES = {
     '45': 'other'
 }
 
+AVAILABLE_CATEGORY_IDS = REVERSE_CATEGORIES.keys()
+
 REVERSE_COMMODITIES = {
     '-1': 'Total',
     '0': 'FoodAndLiveAnimals',
@@ -100,8 +112,28 @@ REVERSE_COMMODITIES = {
     '9': 'Unclassified'
 }
 
-ERROR_FMT = 'The type you are requiring ({0}) doesn\'t exist. You should choose from {1}'
+AVAILABLE_COMMODITY_IDS = REVERSE_COMMODITIES.keys()
 
+END_DATES = {
+    'Jan': '{year}-01-31',
+    'Mar': '{year}-03-31',
+    'Apr': '{year}-04-30',
+    'May': '{year}-05-31',
+    'Jun': '{year}-06-30',
+    'Jul': '{year}-07-31',
+    'Aug': '{year}-08-31',
+    'Sep': '{year}-09-30',
+    'Oct': '{year}-10-31',
+    'Nov': '{year}-11-30',
+    'Dec': '{year}-12-31'
+}
+
+AVAILABLE_MONTHS = END_DATES.keys()
+
+
+ERROR_FMT = 'The type you are requiring ({0}) doesn\'t exist. You should choose from {1}'
+DATE_FORMAT_ERROR = '{0} date is invalid. Dates should be YYYY-MM-DD'
+DATE_ERROR = '{0} date is invalid. There is no such date {1}.'
 
 def get_category_number(category):
     """
@@ -139,32 +171,24 @@ def get_commodity_number(commodity):
 # Need to clean up
 def get_date_end(date):
     """
-    :param date: 'YYYY-MM-DD'
-    :return: the last day of the month
+    :param date: 'MMM-YYYY'
+    :return: the last date of the month
     """
     date_array = date.split("-")
     month = date_array[0]
     year = date_array[1]
 
-    if is_leap_year(int(year)):
-        last_feb = '29'
+    if month == 'Feb':
+        if is_leap_year(int(year)):
+            last_feb = '29'
+        else:
+            last_feb = '28'
+        return year + '-02-' + last_feb
     else:
-        last_feb = '28'
-
-    return {
-        'Jan': year + '-01-31',
-        'Feb': year + '-02-' + last_feb,
-        'Mar': year + '-03-31',
-        'Apr': year + '-04-30',
-        'May': year + '-05-31',
-        'Jun': year + '-06-30',
-        'Jul': year + '-07-31',
-        'Aug': year + '-08-31',
-        'Sep': year + '-09-30',
-        'Oct': year + '-10-31',
-        'Nov': year + '-11-30',
-        'Dec': year + '-12-31',
-    }.get(month, date)
+        try:
+            return END_DATES[month].format(year=year)
+        except KeyError:
+            raise LookupNotFoundError(ERROR_FMT.format(month, AVAILABLE_MONTHS))
 
 
 def is_leap_year(year):
@@ -177,28 +201,37 @@ def is_leap_year(year):
     return year % 4 == 0
 
 
-def get_state_name(state):
+def get_state_name(state_id):
     """
     :param state: number
     :return: name of the state
     """
-    return REVERSE_STATES[state]
+    try:
+        return REVERSE_STATES[state_id]
+    except KeyError:
+        raise LookupNotFoundError(ERROR_FMT.format(state_id, AVAILABLE_STATE_IDS))
 
 
-def reverse_map_categories(category):
+def reverse_map_categories(category_id):
     """
     :param category: number
     :return: name of the category
     """
-    return REVERSE_CATEGORIES[category]
+    try:
+        return REVERSE_CATEGORIES[category_id]
+    except KeyError:
+        raise LookupNotFoundError(ERROR_FMT.format(category_id, AVAILABLE_CATEGORY_IDS))
 
 
-def reverse_map_commodities(commodity):
+def reverse_map_commodities(commodity_id):
     """
     :param commodity: number
     :return: name of the commodity
     """
-    return REVERSE_COMMODITIES[commodity]
+    try:
+        return REVERSE_COMMODITIES[commodity_id]
+    except KeyError:
+        raise LookupNotFoundError(ERROR_FMT.format(commodity_id, AVAILABLE_COMMODITY_IDS))
 
 
 def get_state_number_retail(state):
@@ -221,3 +254,29 @@ def get_state_number_merch(state):
     if result == '0':
         return '-'
     return result
+
+
+def validate_date(start_date, end_date):
+    """
+    :param state_date: start date, end_date: end date
+    """
+    # because having YYYY-M-DD will pass the datetime strptime
+    if not re.match('^\d{4}-\d{2}-\d{2}$', start_date):
+        raise InvalidDateError(DATE_FORMAT_ERROR.format('Start'))
+
+    try:
+        start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+    except ValueError:
+        raise InvalidDateError(DATE_ERROR.format('Start', start_date))
+
+    if not re.match('^\d{4}-\d{2}-\d{2}$', end_date):
+        raise InvalidDateError(DATE_FORMAT_ERROR.format('End'))
+
+    try:
+        end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+    except ValueError:
+        raise InvalidDateError(DATE_ERROR.format('End', end_date))
+
+    if start > end:
+        raise InvalidDateError('Start date should be before end date')
+

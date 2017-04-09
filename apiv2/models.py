@@ -11,7 +11,8 @@ import logging
 import time
 
 from .utils import get_state_number_retail, get_state_number_merch, \
-    get_category_number, get_commodity_number, LookupNotFoundError
+    get_category_number, get_commodity_number, validate_date, \
+    LookupNotFoundError, InvalidDateError
 
 current_date = time.strftime("%Y-%m-%d")
 
@@ -36,6 +37,8 @@ class RemoteResponse(object):
     type = None
 
     def __init__(self, categories, states, starting_date, ending_date):
+        validate_date(starting_date, ending_date)
+
         # common variables used for abs api query
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'}
         values = {'startTime': date_to_month(starting_date),
@@ -43,7 +46,7 @@ class RemoteResponse(object):
                   'dimensionAtObservation': 'allDimensions'}
         data = urllib.urlencode(values)
         url = 'http://stat.data.abs.gov.au/sdmx-json/data/'
-        plus = "+"
+        plus = '+'
 
         if self.type == 'merch':
             categories_string = plus.join(map(get_commodity_number, categories))
@@ -76,20 +79,20 @@ class RemoteResponse(object):
             start_time = time.time()
             logger.info("Making ABS call: {}?{}".format(url, data))
 
-            req = urllib2.Request(url + "?" + data, None, headers)
+            req = urllib2.Request(url + '?' + data, None, headers)
             response = urllib2.urlopen(req)
 
             # end timer, update status and data variables, and add log entry for successful call
             end_time = time.time()
             ms_elapsed = (end_time - start_time)*1000
             self.response_data = json.loads(response.read())
-            self.response_status = "normal"
+            self.response_status = 'normal'
             logger.info("ABS Response OK: '{}?{}'. Time taken: {}ms".format(url, data, ms_elapsed))
 
         # else we set ourselves to a error state
         except LookupNotFoundError as error:
-            self.response_status = "error"
-            self.response_data = {"error_info": str(error)}
+            self.response_status = 'error'
+            self.response_data = {'error': str(error)}
             # add log entry for error
             logger.info("ABS Response ERROR: '{}?{}': ".format(url, data, error))
 

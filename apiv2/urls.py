@@ -8,8 +8,8 @@ from .crocs import cross_origin
 from .mock import mock_views
 from . import views
 
-MERCH = "MerchandiseExports"
-RETAIL = "Retail"
+MERCH = 'MerchandiseExports'
+RETAIL = 'Retail'
 
 SHORT_URL = r'{0}/(?P<categories>[A-Za-z,]+)/?$'
 LONG_URL = r'{0}/(?P<categories>[A-Za-z,]+)/(?P<states>[A-Za-z,]+)/?$'
@@ -42,9 +42,9 @@ def make_routing_with_mock(name, urlbase):
                 make_routing(r'^mock/' + urlbase.format(name), mock_views, method_name)]
 
     if name == MERCH:
-        return pair_making("show_merchandise_data")
+        return pair_making('show_merchandise_data')
     if name == RETAIL:
-        return pair_making("show_retail_data")
+        return pair_making('show_retail_data')
     return []
 
 @cross_origin
@@ -54,7 +54,7 @@ def not_found(_):
     :param _: None
     :return: Return error
     """
-    return HttpResponse("Please do not try to brute force traverse all the url!", status=404)
+    return HttpResponse('Please do not try to brute force traverse all the url!', status=404)
 
 urlpatterns = [url(r'^$', views.index, name='index')]
 urlpatterns += make_routing_with_mock(MERCH, SHORT_URL) \
