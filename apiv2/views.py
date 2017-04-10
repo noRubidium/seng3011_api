@@ -54,11 +54,8 @@ def show_merchandise_data(request, categories, states="Total"):
     start_time = time.time()
     logger.info("New API request: {}".format(request.get_full_path()))
 
-    now = datetime.datetime.now()
-    prev_year = now - datetime.timedelta(days=365)
-
-    start_date = request.GET.get('startDate', prev_year.strftime("%Y-%m-%d"))
-    end_date = request.GET.get('endDate', now.strftime("%Y-%m-%d"))
+    start_date = request.GET.get('startDate')
+    end_date = request.GET.get('endDate')
 
     # string to list
     categories_list = categories.split(',')
@@ -98,11 +95,8 @@ def show_retail_data(request, categories, states='AUS'):
     start_time = time.time()
     logger.info("New API request: {}".format(request.get_full_path()))
 
-    now = datetime.datetime.now()
-    prev_year = now - datetime.timedelta(days=365)
-
-    start_date = request.GET.get('startDate', prev_year.strftime("%Y-%m-%d"))
-    end_date = request.GET.get('endDate', now.strftime("%Y-%m-%d"))
+    start_date = request.GET.get('startDate')
+    end_date = request.GET.get('endDate')
 
     # string to list
     categories_list = categories.split(',')
@@ -126,5 +120,5 @@ def show_retail_data(request, categories, states='AUS'):
     end_time = time.time()
     ms_elapsed = (end_time - start_time)*1000
     logger.info("HTTP 200 OK: Request '{}' successfully returned. Time taken: {}ms".format(request.get_full_path(), ms_elapsed))
-    
+
     return JsonResponse(result)

@@ -3,6 +3,7 @@
 """
 import re
 import datetime
+from dateutil.relativedelta import relativedelta
 
 class LookupNotFoundError(Exception):
     """
@@ -260,23 +261,36 @@ def validate_date(start_date, end_date):
     """
     :param state_date: start date, end_date: end date
     """
+
     # because having YYYY-M-DD will pass the datetime strptime
-    if not re.match('^\d{4}-\d{2}-\d{2}$', start_date):
-        raise InvalidDateError(DATE_FORMAT_ERROR.format('Start'))
+    if start_date:
+        if not re.match('^\d{4}-\d{2}-\d{2}$', start_date):
+            raise InvalidDateError(DATE_FORMAT_ERROR.format('Start'))
+        try:
+            start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+        except ValueError:
+            raise InvalidDateError(DATE_ERROR.format('Start', start_date))
 
-    try:
-        start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-    except ValueError:
-        raise InvalidDateError(DATE_ERROR.format('Start', start_date))
+    if end_date:
+        if not re.match('^\d{4}-\d{2}-\d{2}$', end_date):
+            raise InvalidDateError(DATE_FORMAT_ERROR.format('End'))
+        try:
+            end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+        except ValueError:
+            raise InvalidDateError(DATE_ERROR.format('End', end_date))
 
-    if not re.match('^\d{4}-\d{2}-\d{2}$', end_date):
-        raise InvalidDateError(DATE_FORMAT_ERROR.format('End'))
-
-    try:
-        end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-    except ValueError:
-        raise InvalidDateError(DATE_ERROR.format('End', end_date))
+    if start_date is None:
+        if end_date is None:
+            end = today
+            end_date = end.strftime('%Y-%m-%d')
+        start = end - relativedelta(months=11)
+        start_date = start.strftime('%Y-%m-%d')
+    else:
+        if end_date is None:
+            end = start + relativedelta(months=11)
+            end_date = end.strftime('%Y-%m-%d')
 
     if start > end:
         raise InvalidDateError('Start date should be before end date')
 
+    return (start_date, end_date)
