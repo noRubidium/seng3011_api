@@ -37,7 +37,7 @@ def index(request):
     :param request: http request
     :return: http response
     """
-    return HttpResponse('This is the API end point v2. Request is:' + str(request))
+    return HttpResponse('This is the API end point v3. Request is:' + str(request))
 
 
 @cross_origin
