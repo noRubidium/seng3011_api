@@ -37,7 +37,7 @@ class RemoteResponse(object):
     type = None
 
     def __init__(self, categories, states, starting_date, ending_date):
-        (starting_date, ending_date) = validate_date(starting_date, ending_date)
+        validate_date(starting_date, ending_date)
 
         # common variables used for abs api query
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'}
@@ -96,12 +96,6 @@ class RemoteResponse(object):
             # add log entry for error
             logger.info("ABS Response ERROR: '{}?{}': ".format(url, data, error))
 
-        except urllib2.HTTPError as error:
-            self.response_status = 'error'
-            self.response_data = {'error': "Results not found. ABS does not have the data for the requested dates."}
-            # add log entry for error
-            logger.info("ABS Response ERROR: '{}?{}': ".format(url, data, error))
-
     def get_json(self):
         """
         :return: Return json of response
@@ -136,3 +130,4 @@ class Retail(RemoteResponse):
 
     def __init__(self, categories, states, starting_date, ending_date):
         RemoteResponse.__init__(self, categories, states, starting_date, ending_date)
+        
