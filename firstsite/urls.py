@@ -21,5 +21,4 @@ urlpatterns = [
     url(r'^v1/', include('apiv1.urls')),
     url(r'^v1.1/', include('apiv1-1.urls')),
     url(r'^v2/', include('apiv2.urls')),
-    url(r'^v3/', include('apiv3.urls')),
 ]
