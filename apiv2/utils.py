@@ -261,7 +261,6 @@ def validate_date(start_date, end_date):
     """
     :param state_date: start date, end_date: end date
     """
-
     # because having YYYY-M-DD will pass the datetime strptime
     if start_date:
         if not re.match('^\d{4}-\d{2}-\d{2}$', start_date):
@@ -281,7 +280,7 @@ def validate_date(start_date, end_date):
 
     if start_date is None:
         if end_date is None:
-            end = today
+            end = datetime.date.today()
             end_date = end.strftime('%Y-%m-%d')
         start = end - relativedelta(months=11)
         start_date = start.strftime('%Y-%m-%d')

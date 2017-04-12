@@ -69,7 +69,7 @@ def show_merchandise_data(request, categories, states="Total"):
 
     merch_json = merch.get_json()
     if merch.response_status == 'error':
-        return JsonResponse(merch_json)
+        return JsonResponse(merch_json, status=404)
 
     result = parse_merchandise(merch_json)
 
@@ -112,7 +112,7 @@ def show_retail_data(request, categories, states='AUS'):
 
     retail_json = retail.get_json()
     if retail.response_status == 'error':
-        return JsonResponse(retail_json)
+        return JsonResponse(retail_json, status=404)
 
     result = parse_retail(retail_json)
 

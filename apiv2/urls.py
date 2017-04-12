@@ -2,7 +2,7 @@
 Manage the URL routing
 """
 from django.conf.urls import url
-from django.http import HttpResponse
+from django.http import JsonResponse
 
 from .crocs import cross_origin
 from .mock import mock_views
@@ -50,11 +50,11 @@ def make_routing_with_mock(name, urlbase):
 @cross_origin
 def not_found(_):
     """
-    Return the http response of errror
+    Return the json response of errror
     :param _: None
     :return: Return error
     """
-    return HttpResponse('Please do not try to brute force traverse all the url!', status=404)
+    return JsonResponse({'error': 'You should choose the type and categories. Type is either Retail or MerchandiseExports'}, status=404)
 
 urlpatterns = [url(r'^$', views.index, name='index')]
 urlpatterns += make_routing_with_mock(MERCH, SHORT_URL) \
