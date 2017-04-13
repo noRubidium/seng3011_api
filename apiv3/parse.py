@@ -5,6 +5,8 @@ Parse all the json
 import json
 from .utils import get_date_end, get_state_name, reverse_map_categories, reverse_map_commodities
 
+import re
+import datetime
 
 def to_int_list(observation):
     """
@@ -15,7 +17,7 @@ def to_int_list(observation):
     return map(int, observation.encode().split(':'))
 
 
-def parse_merchandise(data):
+def parse_merchandise(data,request, start_date, end_date, ms_elapsed):
     """
     parse the merchandise json response data
     :param data: json data
@@ -53,6 +55,12 @@ def parse_merchandise(data):
     update_result(data['structure']['dimensions']['observation'])
     result = {'MonthlyCommodityExportData': [{} for _ in xrange(len(commodities))]}
 
+    version = str(request.path)
+    version = "v" + re.match("\/v([0-9\.]*)\/",version).group(1)
+    now = datetime.datetime.now()
+
+    result['Header'] = {"team":"Eleven51","version":version,"elapsed_time":ms_elapsed,"start_date":start_date,"end_date":end_date,"time":unicode(now.replace(microsecond=0))}
+
     for dataset in data['dataSets']:
         for observation, item in dataset['observations'].items():
             (state, commodity, _, _, _, month) = to_int_list(observation)
@@ -75,7 +83,7 @@ def parse_merchandise(data):
     return result
 
 
-def parse_retail(data):
+def parse_retail(data,request, start_date, end_date, ms_elapsed):
     """
     parse the retail json response data
     :param data: json data
@@ -113,6 +121,12 @@ def parse_retail(data):
 
     update_lookup(data['structure']['dimensions']['observation'])
     result = {'MonthlyRetailData': [{} for _ in xrange(len(categories))]}
+
+    version = str(request.path)
+    version = "v" + re.match("\/v([0-9\.]*)\/",version).group(1)
+    now = datetime.datetime.now()
+
+    result['Header'] = {"team":"Eleven51","version":version,"elapsed_time":ms_elapsed,"start_date":start_date,"end_date":end_date,"time":unicode(now.replace(microsecond=0))}
 
     for dataset in data['dataSets']:
         for observation, item in dataset['observations'].items():

@@ -71,11 +71,11 @@ def show_merchandise_data(request, categories, states="Total"):
     if merch.response_status == 'error':
         return JsonResponse(merch_json, status=404)
 
-    result = parse_merchandise(merch_json)
-
     # end timer and log successful response
     end_time = time.time()
-    ms_elapsed = (start_time - end_time)*1000
+    ms_elapsed = (end_time - start_time)*1000
+
+    result = parse_merchandise(merch_json,request, start_date, end_date, ms_elapsed)
     logger.info("HTTP 200 OK: Request '{}' successfully returned. Time taken: {}ms".format(request.get_full_path(), ms_elapsed))
 
     return JsonResponse(result)
@@ -114,11 +114,13 @@ def show_retail_data(request, categories, states='AUS'):
     if retail.response_status == 'error':
         return JsonResponse(retail_json, status=404)
 
-    result = parse_retail(retail_json)
 
     # end timer and log successful response
     end_time = time.time()
     ms_elapsed = (end_time - start_time)*1000
+
+    result = parse_retail(retail_json,request, start_date, end_date, ms_elapsed)
+
     logger.info("HTTP 200 OK: Request '{}' successfully returned. Time taken: {}ms".format(request.get_full_path(), ms_elapsed))
 
     return JsonResponse(result)
