@@ -3,7 +3,6 @@
 """
 import re
 import datetime
-from dateutil.relativedelta import relativedelta
 
 class LookupNotFoundError(Exception):
     """
@@ -282,11 +281,11 @@ def validate_date(start_date, end_date):
         if end_date is None:
             end = datetime.date.today()
             end_date = end.strftime('%Y-%m-%d')
-        start = end - relativedelta(months=11)
+        start = end - datetime.timedelta(months=11)
         start_date = start.strftime('%Y-%m-%d')
     else:
         if end_date is None:
-            end = start + relativedelta(months=11)
+            end = start + datetime.timedelta(months=11)
             end_date = end.strftime('%Y-%m-%d')
 
     if start > end:
