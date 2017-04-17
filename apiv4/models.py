@@ -32,6 +32,7 @@ def date_to_month(date):
     """
     return re.sub(r'(\d{4}-\d{2})-\d{2}', r'\1', date)
 
+
 def disassemble_json(arr, k1, k2):
     """
     Disassemble the json into dictionary
@@ -59,6 +60,7 @@ def disassemble_json(arr, k1, k2):
                 pass
     return result
 
+
 class RemoteResponse(object):
     """
     API model type, query from remote ABS API
@@ -82,7 +84,6 @@ class RemoteResponse(object):
         RemoteResponse.total_dict = dict()
         RemoteResponse.remote_get('merch', AVAILABLE_COMMODITIES, AVAILABLE_STATES, '1970-01-01', current_date)
         RemoteResponse.remote_get('retail', AVAILABLE_CATEGORIES, AVAILABLE_STATES, '1970-01-01', current_date)
-
 
     @staticmethod
     def remote_get(remote_type, categories, states, starting_date, ending_date):
