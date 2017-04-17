@@ -179,7 +179,7 @@ def is_leap_year(year):
 
 def get_state_name(state_id):
     """
-    :param state: number
+    :param state_id: number
     :return: name of the state
     """
     try:
@@ -190,7 +190,7 @@ def get_state_name(state_id):
 
 def reverse_map_categories(category_id):
     """
-    :param category: number
+    :param category_id: number
     :return: name of the category
     """
     try:
@@ -201,7 +201,7 @@ def reverse_map_categories(category_id):
 
 def reverse_map_commodities(commodity_id):
     """
-    :param commodity: number
+    :param commodity_id: number
     :return: name of the commodity
     """
     try:
