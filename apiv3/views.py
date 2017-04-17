@@ -75,7 +75,7 @@ def show_merchandise_data(request, categories, states="Total"):
 
     # end timer and log successful response
     end_time = time.time()
-    ms_elapsed = (start_time - end_time)*1000
+    ms_elapsed = (end_time - start_time)*1000
     logger.info("HTTP 200 OK: Request '{}' successfully returned. Time taken: {}ms".format(request.get_full_path(), ms_elapsed))
 
     return JsonResponse(result)

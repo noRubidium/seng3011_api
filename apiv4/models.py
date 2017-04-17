@@ -78,7 +78,7 @@ def date_range(starting_date, ending_date):
         if c_m > 12:
             c_m = 1
             c_y += 1
-        curr_month = get_date_end_num("%d-%02d-01" % (c_y, c_m))
+        curr_month = get_date_end_num("{0}-{1:02d}-01".format(c_y, c_m))
     return l
 
 
