@@ -47,7 +47,6 @@ def disassemble_json(arr, k1, k2):
         regional_data = cat['regional_data']
         result[name] = {}
         for d in regional_data:
-            print d
             try:
                 state = d['state']
                 result[name][state] = {}
@@ -183,10 +182,15 @@ class RemoteResponse(object):
                         get_state_number_retail(state)
 
                     values = []
+                    count = 0
                     for date in RemoteResponse.total_dict[self.type][cat][state]:
 
                         if starting_date <= date <= ending_date:
+                            count += 1
                             values.append({'date': date, k2: RemoteResponse.total_dict[self.type][cat][state][date]})
+                    if count == 0:
+                        return 'error', \
+                               {'error': 'Results not found. ABS does not have the data for the requested dates.'}
                     regional_data.append({'state': state, 'data': values})
                 total_list.append({k1: cat, 'regional_data': regional_data})
         except LookupNotFoundError as error:
