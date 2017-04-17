@@ -14,7 +14,8 @@ from .parse import parse_merchandise, parse_retail
 from .utils import get_state_number_retail, get_state_number_merch, \
     get_category_number, get_commodity_number, validate_date, \
     LookupNotFoundError, InvalidDateError, AVAILABLE_STATES, \
-    AVAILABLE_COMMODITIES, AVAILABLE_CATEGORIES
+    AVAILABLE_COMMODITIES, AVAILABLE_CATEGORIES, \
+    get_date_end_num
 
 current_date = time.strftime("%Y-%m-%d")
 
@@ -58,6 +59,27 @@ def disassemble_json(arr, k1, k2):
             except KeyError:
                 pass
     return result
+
+
+def date_range(starting_date, ending_date):
+    """
+    Generate a month step of dates
+    :param starting_date: starting month
+    :param ending_date: ending month
+    :return: a list of all months
+    """
+    l = list()
+    curr_month = get_date_end_num(starting_date)
+    e_y, e_m, _ = map(int, ending_date.split('-'))
+    c_y, c_m, _ = map(int, curr_month.split('-'))
+    while e_y > c_y or (e_y == c_y and e_m >= c_m):
+        l.append(curr_month)
+        c_m += 1
+        if c_m > 12:
+            c_m = 1
+            c_y += 1
+        curr_month = get_date_end_num("%d-%02d-01" % (c_y, c_m))
+    return l
 
 
 class RemoteResponse(object):
@@ -183,11 +205,13 @@ class RemoteResponse(object):
 
                     values = []
                     count = 0
-                    for date in RemoteResponse.total_dict[self.type][cat][state]:
-
-                        if starting_date <= date <= ending_date:
+                    for date in date_range(starting_date, ending_date):
+                        try:
+                            data = RemoteResponse.total_dict[self.type][cat][state][date]
+                            values.append({'date': date, k2: data})
                             count += 1
-                            values.append({'date': date, k2: RemoteResponse.total_dict[self.type][cat][state][date]})
+                        except KeyError:
+                            pass
                     if count == 0:
                         return 'error', \
                                {'error': 'Results not found. ABS does not have the data for the requested dates.'}

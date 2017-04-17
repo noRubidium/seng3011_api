@@ -117,7 +117,19 @@ REVERSE_COMMODITIES = {
 }
 
 AVAILABLE_COMMODITY_IDS = REVERSE_COMMODITIES.keys()
-
+END_DATES_NUM = {
+    '01': '{year}-01-31',
+    '03': '{year}-03-31',
+    '04': '{year}-04-30',
+    '05': '{year}-05-31',
+    '06': '{year}-06-30',
+    '07': '{year}-07-31',
+    '08': '{year}-08-31',
+    '09': '{year}-09-30',
+    '10': '{year}-10-31',
+    '11': '{year}-11-30',
+    '12': '{year}-12-31'
+}
 END_DATES = {
     'Jan': '{year}-01-31',
     'Mar': '{year}-03-31',
@@ -191,6 +203,27 @@ def get_date_end(date):
     else:
         try:
             return END_DATES[month].format(year=year)
+        except KeyError:
+            raise LookupNotFoundError(ERROR_FMT.format(month, AVAILABLE_MONTHS))
+
+
+# Need to clean up
+def get_date_end_num(date):
+    """
+    :param date: 'YYYY-mm-dd'
+    :return: the last date of the month
+    """
+    year, month, _ = date.split("-")
+
+    if month == '02':
+        if is_leap_year(int(year)):
+            last_feb = '29'
+        else:
+            last_feb = '28'
+        return year + '-02-' + last_feb
+    else:
+        try:
+            return END_DATES_NUM[month].format(year=year)
         except KeyError:
             raise LookupNotFoundError(ERROR_FMT.format(month, AVAILABLE_MONTHS))
 
