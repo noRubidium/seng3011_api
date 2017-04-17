@@ -241,7 +241,7 @@ class RemoteResponse(object):
                             "elapsed_time": None,
                             "version": "v4",
                             "time": unicode(now.replace(microsecond=0)),
-                            "start_date": ending_date}
+                            "start_date": starting_date}
         return 'normal', result
 
 
