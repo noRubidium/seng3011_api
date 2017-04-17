@@ -213,7 +213,16 @@ class RemoteResponse(object):
                             values.append({'date': date, k2: data})
                             count += 1
                         except KeyError:
-                            pass
+                            if state == 'Total':
+                                state = 'AUS'
+                            elif state == 'AUS':
+                                state = 'Total'
+                            try:
+                                data = RemoteResponse.total_dict[self.type][cat][state][date]
+                                values.append({'date': date, k2: data})
+                                count += 1
+                            except KeyError:
+                                pass
                     if count == 0:
                         return 'error', \
                                {'error': 'Results not found. ABS does not have the data for the requested dates.'}
