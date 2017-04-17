@@ -10,6 +10,8 @@ import urllib2
 import logging
 import time
 
+import datetime
+
 from .parse import parse_merchandise, parse_retail
 from .utils import get_state_number_retail, get_state_number_merch, \
     get_category_number, get_commodity_number, validate_date, \
@@ -223,6 +225,14 @@ class RemoteResponse(object):
             return 'error', {'error': str(error)}
 
         result[top_level_key] = total_list
+
+        now = datetime.datetime.now()
+        result['Header'] = {"end_date": ending_date,
+                            "team": "Eleven51",
+                            "elapsed_time": None,
+                            "version": "v4",
+                            "time": unicode(now.replace(microsecond=0)),
+                            "start_date": ending_date}
         return 'normal', result
 
 

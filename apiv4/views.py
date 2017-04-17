@@ -76,7 +76,7 @@ def show_merchandise_data(request, categories, states="Total"):
     ms_elapsed = (end_time - start_time)*1000
     logger.info("HTTP 200 OK: Request '{}' successfully returned. Time taken: {}ms".format(request.get_full_path(),
                                                                                            ms_elapsed))
-
+    merch_json['Header']['elapsed_time'] = ms_elapsed
     return JsonResponse(merch_json)
 
 
@@ -113,11 +113,10 @@ def show_retail_data(request, categories, states='AUS'):
     if retail.response_status == 'error':
         return JsonResponse(retail_json, status=404)
 
-    result = parse_retail(retail_json)
-
     # end timer and log successful response
     end_time = time.time()
     ms_elapsed = (end_time - start_time)*1000
     logger.info("HTTP 200 OK: Request '{}' successfully returned. Time taken: {}ms".format(request.get_full_path(), ms_elapsed))
 
-    return JsonResponse(result)
+    retail_json['Header']['elapsed_time'] = ms_elapsed
+    return JsonResponse(retail_json)
