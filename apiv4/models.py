@@ -161,6 +161,8 @@ class RemoteResponse(object):
             if remote_type == 'merch':
                 RemoteResponse.total_dict['merch'] = disassemble_json(parse_merchandise(json.loads(response.read()))['MonthlyCommodityExportData'], 'commodity',
                                                                   'value')
+                f = open('testFile', 'w')
+                f.write(str(RemoteResponse.total_dict['merch']))
             else:
                 RemoteResponse.total_dict['retail'] = disassemble_json(parse_retail(json.loads(response.read()))['MonthlyRetailData'], 'category',
                                                                    'turnover')
@@ -190,8 +192,10 @@ class RemoteResponse(object):
         k2 = 'value' if self.type == 'merch' else 'turnover'
         total_list = []
         try:
+            count = 0
             for cat in categories:
                 # force error
+                print cat
                 if self.type == 'merch':
                     get_commodity_number(cat)
                 else:
@@ -206,7 +210,7 @@ class RemoteResponse(object):
                         get_state_number_retail(state)
 
                     values = []
-                    count = 0
+
                     for date in date_range(starting_date, ending_date):
                         try:
                             data = RemoteResponse.total_dict[self.type][cat][state][date]
@@ -223,10 +227,10 @@ class RemoteResponse(object):
                                 count += 1
                             except KeyError:
                                 pass
-                    if count == 0:
-                        return 'error', \
-                               {'error': 'Results not found. ABS does not have the data for the requested dates.'}
                     regional_data.append({'state': state, 'data': values})
+                if count == 0:
+                    return 'error', \
+                           {'error': 'Results not found. ABS does not have the data for the requested dates.'}
                 total_list.append({k1: cat, 'regional_data': regional_data})
         except LookupNotFoundError as error:
             # add log entry for error
