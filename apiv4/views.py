@@ -78,7 +78,7 @@ def show_merchandise_data(request, categories, states="Total"):
                                                                                            ms_elapsed))
     merch_json['Header']['elapsed_time'] = ms_elapsed
     if request.GET.get('ignoreHeader', False):
-        merch_json['Head'] = None
+        merch_json['Header'] = None
     return JsonResponse(merch_json)
 
 
@@ -122,5 +122,5 @@ def show_retail_data(request, categories, states='AUS'):
 
     retail_json['Header']['elapsed_time'] = ms_elapsed
     if request.GET.get('ignoreHeader', False):
-        retail_json['Head'] = None
+        retail_json['Header'] = None
     return JsonResponse(retail_json)
