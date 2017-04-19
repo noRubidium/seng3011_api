@@ -145,7 +145,6 @@ class RemoteResponse(object):
         # if normal
         # we set our own attribute to a normal state thing
         try:
-            print url + "?" + data
 
             # start timer and add log entry for ABS call
             start_time = time.time()
