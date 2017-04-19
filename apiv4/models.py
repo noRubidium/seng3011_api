@@ -161,8 +161,6 @@ class RemoteResponse(object):
             if remote_type == 'merch':
                 RemoteResponse.total_dict['merch'] = disassemble_json(parse_merchandise(json.loads(response.read()))['MonthlyCommodityExportData'], 'commodity',
                                                                   'value')
-                f = open('testFile', 'w')
-                f.write(str(RemoteResponse.total_dict['merch']))
             else:
                 RemoteResponse.total_dict['retail'] = disassemble_json(parse_retail(json.loads(response.read()))['MonthlyRetailData'], 'category',
                                                                    'turnover')
@@ -195,7 +193,6 @@ class RemoteResponse(object):
             count = 0
             for cat in categories:
                 # force error
-                print cat
                 if self.type == 'merch':
                     get_commodity_number(cat)
                 else:
