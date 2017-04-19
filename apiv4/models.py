@@ -145,7 +145,6 @@ class RemoteResponse(object):
         # if normal
         # we set our own attribute to a normal state thing
         try:
-            print url + "?" + data
 
             # start timer and add log entry for ABS call
             start_time = time.time()
@@ -190,6 +189,7 @@ class RemoteResponse(object):
         k2 = 'value' if self.type == 'merch' else 'turnover'
         total_list = []
         try:
+            count = 0
             for cat in categories:
                 # force error
                 if self.type == 'merch':
@@ -206,7 +206,7 @@ class RemoteResponse(object):
                         get_state_number_retail(state)
 
                     values = []
-                    count = 0
+
                     for date in date_range(starting_date, ending_date):
                         try:
                             data = RemoteResponse.total_dict[self.type][cat][state][date]
@@ -223,10 +223,10 @@ class RemoteResponse(object):
                                 count += 1
                             except KeyError:
                                 pass
-                    if count == 0:
-                        return 'error', \
-                               {'error': 'Results not found. ABS does not have the data for the requested dates.'}
                     regional_data.append({'state': state, 'data': values})
+                if count == 0:
+                    return 'error', \
+                           {'error': 'Results not found. ABS does not have the data for the requested dates.'}
                 total_list.append({k1: cat, 'regional_data': regional_data})
         except LookupNotFoundError as error:
             # add log entry for error

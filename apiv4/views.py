@@ -121,7 +121,6 @@ def show_retail_data(request, categories, states='AUS'):
     logger.info("HTTP 200 OK: Request '{}' successfully returned. Time taken: {}ms".format(request.get_full_path(), ms_elapsed))
 
     retail_json['Header']['elapsed_time'] = ms_elapsed
-
     if request.GET.get('ignoreHeader', False):
         retail_json['Head'] = None
     return JsonResponse(retail_json)

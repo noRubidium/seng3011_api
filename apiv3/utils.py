@@ -39,7 +39,7 @@ CATEGORIES = {
     'ClothingFootwareAndPersonalAccessory': '43',
     'DepartmentStores': '44',
     'CafesRestaurantsAndTakeawayFood': '46',
-    'other': '45'
+    'Other': '45'
 }
 
 AVAILABLE_CATEGORIES = CATEGORIES.keys()
@@ -97,7 +97,7 @@ REVERSE_CATEGORIES = {
     '43': 'ClothingFootwareAndPersonalAccessory',
     '44': 'DepartmentStores',
     '46': 'CafesRestaurantsAndTakeawayFood',
-    '45': 'other'
+    '45': 'Other'
 }
 
 AVAILABLE_CATEGORY_IDS = REVERSE_CATEGORIES.keys()
