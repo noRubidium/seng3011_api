@@ -569,6 +569,119 @@ R.E.2.4 Retail Error Start date after current Date
   ${exp_json} =     Parse Json    ${exp_file}
   Should Be Equal   ${resp_json}  ${exp_json}
 
+M.E.2.5 Merch Error Date Day nonexistant "2011-15-19"
+
+  [Tags]  error 
+
+  ${stats_area} =   Set Variable  MerchandiseExports
+  ${categories} =   Set Variable  Total,FoodAndLiveAnimals,BeveragesAndTobacco,CrudeMaterialAndInedible,MineralFuelLubricantAndRelatedMaterial,AnimalAndVegetableOilFatAndWaxes,ChemicalsAndRelatedProducts,ManufacturedGoods,MachineryAndTransportEquipments,OtherManufacturedArticles,Unclassified
+  ${states} =       Set Variable  Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+  ${start_date} =   Set Variable  2010-03-24
+  ${end_date} =     Set Variable  2011-15-19
+  ${params} =       Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+  ${expected} =     Set Variable  M.E.2.5.expected.json
+
+  Create API Context
+  Next Request May Not Succeed
+  GET               /${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal   404
+
+  ${resp_body} =    Get Response Body
+  ${resp_json} =    Parse Json    ${resp_body}
+  Log               ${resp_json}
+  ${exp_file} =     Get File      expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal   ${resp_json}  ${exp_json}
+
+
+R.E.2.5 Retail Error Date nonexistant "2011-12-32"
+
+  [Tags]  error 
+
+  ${stats_area} =   Set Variable  Retail
+  ${categories} =   Set Variable  Total,Food,HouseholdGood,ClothingFootwareAndPersonalAccessory,DepartmentStores,CafesRestaurantsAndTakeawayFood,Other
+  ${states} =       Set Variable  Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+  ${start_date} =   Set Variable  2010-03-24
+  ${end_date} =     Set Variable  2011-12-32
+  ${params} =       Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+  ${expected} =     Set Variable  R.E.2.5.expected.json
+
+  Create API Context
+  Next Request May Not Succeed
+  GET               /${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal   404
+
+  ${resp_body} =    Get Response Body
+  ${resp_json} =    Parse Json    ${resp_body}
+  Log               ${resp_json}
+  ${exp_file} =     Get File      expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal   ${resp_json}  ${exp_json}
+
+M.E.2.6 Merch Error 29th Feb, non leap year "2013-02-29"
+
+  [Tags]  error 
+
+  ${stats_area} =   Set Variable  MerchandiseExports
+  ${categories} =   Set Variable  Total,FoodAndLiveAnimals,BeveragesAndTobacco,CrudeMaterialAndInedible,MineralFuelLubricantAndRelatedMaterial,AnimalAndVegetableOilFatAndWaxes,ChemicalsAndRelatedProducts,ManufacturedGoods,MachineryAndTransportEquipments,OtherManufacturedArticles,Unclassified
+  ${states} =       Set Variable  Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+  ${start_date} =   Set Variable  2011-02-28
+  ${end_date} =     Set Variable  2013-02-29
+  ${params} =       Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+  ${expected} =     Set Variable  M.E.2.6.expected.json
+
+  Create API Context
+  Next Request May Not Succeed
+  GET               /${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal   404
+
+  ${resp_body} =    Get Response Body
+  ${resp_json} =    Parse Json    ${resp_body}
+  Log               ${resp_json}
+  ${exp_file} =     Get File      expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal   ${resp_json}  ${exp_json}
+
+
+R.E.2.6 Retail Error 29th Feb, non leap year "2011-02-29"
+
+  [Tags]  error 
+
+  ${stats_area} =   Set Variable  Retail
+  ${categories} =   Set Variable  Total,Food,HouseholdGood,ClothingFootwareAndPersonalAccessory,DepartmentStores,CafesRestaurantsAndTakeawayFood,Other
+  ${states} =       Set Variable  Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+  ${start_date} =   Set Variable  2011-02-29
+  ${end_date} =     Set Variable  2011-12-19
+  ${params} =       Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+  ${expected} =     Set Variable  R.E.2.6.expected.json
+
+  Create API Context
+  Next Request May Not Succeed
+  GET               /${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal   404
+
+  ${resp_body} =    Get Response Body
+  ${resp_json} =    Parse Json    ${resp_body}
+  Log               ${resp_json}
+  ${exp_file} =     Get File      expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal   ${resp_json}  ${exp_json}
 
 M.3.1 Merch Only Categories Supplied
   
@@ -825,6 +938,115 @@ R.3.5 Retail Categories, States, Start date and EndDate supplied
   Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal   200
+
+  ${resp_body} =    Get Response Body
+  ${resp_json} =    Parse Json    ${resp_body}
+  Log               ${resp_json}
+  ${exp_file} =     Get File      expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal   ${resp_json}  ${exp_json}
+
+M.3.6 Merch Valid Input, StartDate=1994-02-20, EndDate=1996-05-20. Data starts from 1995-07-31
+
+  [Tags]  error 
+
+  ${stats_area} =   Set Variable  MerchandiseExports
+  ${categories} =   Set Variable  Total,FoodAndLiveAnimals,BeveragesAndTobacco,CrudeMaterialAndInedible,MineralFuelLubricantAndRelatedMaterial,AnimalAndVegetableOilFatAndWaxes,ChemicalsAndRelatedProducts,ManufacturedGoods,MachineryAndTransportEquipments,OtherManufacturedArticles,Unclassified
+  ${states} =       Set Variable  Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+  ${start_date} =   Set Variable  1994-02-20
+  ${end_date} =     Set Variable  1996-05-20
+  ${params} =       Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+  ${expected} =     Set Variable  M.3.6.expected.json
+
+   Create API Context
+  GET               /${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal   200
+
+  ${resp_body} =    Get Response Body
+  ${resp_json} =    Parse Json    ${resp_body}
+  Log               ${resp_json}
+  ${exp_file} =     Get File      expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal   ${resp_json}  ${exp_json}
+
+R.3.6 Retail Valid Input, StartDate=1997-03-02 and EndDate=1996-05-20. Data starts from 1982-04-30
+
+  ${stats_area} =   Set Variable  Retail
+  ${categories} =   Set Variable  Total,Food,HouseholdGood,ClothingFootwareAndPersonalAccessory,DepartmentStores,CafesRestaurantsAndTakeawayFood,Other
+  ${states} =       Set Variable  Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+  ${start_date} =   Set Variable  1972-03-02
+  ${end_date} =     Set Variable  1996-05-20
+  ${params} =       Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+  ${expected} =     Set Variable  R.3.6.expected.json
+
+  Create API Context
+  GET               /${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal   200
+
+  ${resp_body} =    Get Response Body
+  ${resp_json} =    Parse Json    ${resp_body}
+  Log               ${resp_json}
+  ${exp_file} =     Get File      expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal   ${resp_json}  ${exp_json}
+
+M.E.3.1 Merch Valid Input No Results Found for Tasmania,ACT
+
+  [Tags]  error 
+
+  ${stats_area} =   Set Variable  MerchandiseExports
+  ${categories} =   Set Variable  Total,FoodAndLiveAnimals,BeveragesAndTobacco,CrudeMaterialAndInedible,MineralFuelLubricantAndRelatedMaterial,AnimalAndVegetableOilFatAndWaxes,ChemicalsAndRelatedProducts,ManufacturedGoods,MachineryAndTransportEquipments,OtherManufacturedArticles,Unclassified
+  ${states} =       Set Variable  Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+  ${start_date} =   Set Variable  1990-02-28
+  ${end_date} =     Set Variable  1995-05-20
+  ${params} =       Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+  ${expected} =     Set Variable  M.E.3.1.expected.json
+
+  Create API Context
+  Next Request May Not Succeed
+  GET               /${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal   404
+
+  ${resp_body} =    Get Response Body
+  ${resp_json} =    Parse Json    ${resp_body}
+  Log               ${resp_json}
+  ${exp_file} =     Get File      expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal   ${resp_json}  ${exp_json}
+
+
+R.E.3.1 Retail Valid input but no results found
+
+  [Tags]  error 
+
+  ${stats_area} =   Set Variable  Retail
+  ${categories} =   Set Variable  Total,Food,HouseholdGood,ClothingFootwareAndPersonalAccessory,DepartmentStores,CafesRestaurantsAndTakeawayFood,Other
+  ${states} =       Set Variable  Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+  ${start_date} =   Set Variable  1972-03-02
+  ${end_date} =     Set Variable  1980-05-20
+  ${params} =       Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+  ${expected} =     Set Variable  R.E.3.1.expected.json
+
+  Create API Context
+  Next Request May Not Succeed
+  GET               /${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log               ${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal   404
 
   ${resp_body} =    Get Response Body
   ${resp_json} =    Parse Json    ${resp_body}
