@@ -23,6 +23,11 @@ pip-log.txt
 .coverage
 .tox
 
+# Robot outputs
+correctness_tests/*.xml
+correctness_tests/*.html
+correctness_tests/foobar.txt
+
 # Translations
 *.mo
 
