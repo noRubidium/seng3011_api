@@ -344,3 +344,62 @@ R.E.1.3 Retail Error Incorrect States
   ${exp_json} =     Parse Json    ${exp_file}
   Should Be Equal  	${resp_json}  ${exp_json}
 
+
+
+M.E.2.1 Merch Error EndDate before StartDate
+
+	[Tags]  error 
+
+	${stats_area} =   Set Variable	MerchandiseExports
+	${categories} = 	Set Variable  Total,FoodAndLiveAnimals,BeveragesAndTobacco,CrudeMaterialAndInedible,MineralFuelLubricantAndRelatedMaterial,AnimalAndVegetableOilFatAndWaxes,ChemicalsAndRelatedProducts,ManufacturedGoods,MachineryAndTransportEquipments,OtherManufacturedArticles,Unclassified
+	${states} =  			Set Variable 	Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+	${start_date} = 	Set Variable 	2010-03-24
+	${end_date} = 		Set Variable 	1999-12-19
+	${params} =  			Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+	${expected} = 		Set Variable  M.E.2.1.expected.json
+
+  Create API Context
+  Next Request May Not Succeed
+  GET 							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal		404
+
+  ${resp_body} =  	Get Response Body
+  ${resp_json} =  	Parse Json  	${resp_body}
+  Log  							${resp_json}
+  ${exp_file} =     Get File    	expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal  	${resp_json}  ${exp_json}
+
+
+R.E.2.1 Retail Error EndDate before StartDate
+
+	[Tags]  error 
+
+	${stats_area} =   Set Variable	Retail
+	${categories} = 	Set Variable  Total,Food,HouseholdGood,ClothingFootwareAndPersonalAccessory,DepartmentStores,CafesRestaurantsAndTakeawayFood,Other
+	${states} =  			Set Variable 	Total,NSW,WA,SA,ACT,VIC,TAS,QLD,NT
+
+	${start_date} = 	Set Variable 	2010-03-24
+	${end_date} = 		Set Variable 	1999-12-19
+	${params} =  			Set Variable  startDate=${start_date}&endDate=${end_date}&ignoreHeader=True
+
+	${expected} = 		Set Variable  R.E.2.1.expected.json
+
+  Create API Context
+  Next Request May Not Succeed
+  GET 							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
+
+  Response Status Code Should Equal		404
+
+  ${resp_body} =  	Get Response Body
+  ${resp_json} =  	Parse Json  	${resp_body}
+  Log  							${resp_json}
+  ${exp_file} =     Get File    	expected_outputs/${expected}
+  ${exp_json} =     Parse Json    ${exp_file}
+  Should Be Equal  	${resp_json}  ${exp_json}
+
