@@ -24,8 +24,8 @@ M.1.1 Merch All Variables No Dates
 	${expected} = 		Set Variable  M.1.1.expected.json
 
   Create API Context
-  GET  							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET  							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		200
 
@@ -47,8 +47,8 @@ R.1.1 Retail All Variables No Dates
 	${expected} = 		Set Variable  R.1.1.expected.json
 
   Create API Context
-  GET  							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET  							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		200
 
@@ -73,8 +73,8 @@ M.1.2 Merch All Variables Entire Date Range
 	${expected} = 		Set Variable  M.1.2.expected.json
 
   Create API Context
-  GET  							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET  							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		200
 
@@ -99,8 +99,8 @@ R.1.2 Retail All Variables Entire Date Range
 	${expected} = 		Set Variable  R.1.2.expected.json
 
   Create API Context
-  GET  							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET  							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		200
 
@@ -125,8 +125,8 @@ M.1.3 Merch All Variables Date Range Beyond All Data
 	${expected} = 		Set Variable  M.1.3.expected.json
 
   Create API Context
-  GET  							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET  							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		200
 
@@ -151,8 +151,8 @@ R.1.3 Retail All Variables Date Range Beyond All Data
 	${expected} = 		Set Variable  R.1.3.expected.json
 
   Create API Context
-  GET  							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET  							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		200
 
@@ -185,8 +185,8 @@ M.E.1.1 Merch Error Incorrect Stats Area
 
   Create API Context
   Next Request May Not Succeed
-  GET 							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET 							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		404
 
@@ -214,8 +214,8 @@ R.E.1.1 Retail Error Incorrect Stats Area
 
   Create API Context
   Next Request May Not Succeed
-  GET 							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET 							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		404
 
@@ -244,8 +244,8 @@ M.E.1.2 Merch Error Incorrect Commodities
 
   Create API Context
   Next Request May Not Succeed
-  GET 							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET 							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		404
 
@@ -273,8 +273,8 @@ R.E.1.2 Retail Error Incorrect Categories
 
   Create API Context
   Next Request May Not Succeed
-  GET 							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET 							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		404
 
@@ -303,8 +303,8 @@ M.E.1.3 Merch Error Incorrect States
 
   Create API Context
   Next Request May Not Succeed
-  GET 							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET 							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		404
 
@@ -332,8 +332,8 @@ R.E.1.3 Retail Error Incorrect States
 
   Create API Context
   Next Request May Not Succeed
-  GET 							/v4/${stats_area}/${categories}/${states}?${params}
-  Log								${API_ENDPOINT}/v4/${stats_area}/${categories}/${states}?${params}
+  GET 							/${VERSION}/${stats_area}/${categories}/${states}?${params}
+  Log								${API_ENDPOINT}/${VERSION}/${stats_area}/${categories}/${states}?${params}
 
   Response Status Code Should Equal		404
 
