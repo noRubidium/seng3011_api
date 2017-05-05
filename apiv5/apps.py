@@ -9,4 +9,4 @@ class ApiConfig(AppConfig):
     """
     Configuration of the App
     """
-    name = 'apiv4'
+    name = 'apiv5'
