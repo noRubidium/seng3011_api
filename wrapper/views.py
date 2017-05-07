@@ -23,7 +23,7 @@ def index(request, url):
         response = urllib2.urlopen(url)
         html = response.read()
     except Exception as e:
-        logger.error('This is bad {}'.format(str(e.reason)))
+        logger.error('This is bad {} haha'.format(str(e.reason)))
         return HttpResponse('Not Found REASON:{}, URL:{}'.format(e.reason, url), status=404)
     return HttpResponse(html)
 
