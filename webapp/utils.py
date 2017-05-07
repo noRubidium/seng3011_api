@@ -4,15 +4,16 @@
 
 
 class RetailInfo:
-    def __init__(self, id, name, details, thumbnail=None):
+    def __init__(self, id, name, alias, details, thumbnail=None):
         self.id = id
         self.name = name
+        self.alias = alias
         self.details = details
         self.thumbnail = thumbnail
 
 
 class RetailDetails:
-    def __init__(self, id, name, url, info=None, categories=[], share_links=[], thumbnail=None):
+    def __init__(self, id, name, url, info=None, categories=None, share_links=None, thumbnail=None):
         self.id = id
         self.name = name
         self.url = url
@@ -22,14 +23,14 @@ class RetailDetails:
         self.thumbnail = thumbnail
 
 info = dict()
-info['WES.AX'] = RetailInfo('WES.AX', 'Wesfarmers Ltd', 'This is Wesfarmers')
-info['WOW.AX'] = RetailInfo('WOW.AX', 'Woolworths Supermarkets', 'This is Woolies')
-info['MYR.AX'] = RetailInfo('MYR.AX', 'MYER', 'This is MYER')
-info['DMP.AX'] = RetailInfo('DMP.AX', 'Domino\'s Pizza Enterprises', 'This is Dominos')
-info['JBH.AX'] = RetailInfo('JBH.AX', 'JB Hi-Fi Limited', 'This is JB Hi-Fi')
-info['HVN.AX'] = RetailInfo('HVN.AX', 'Harvey Norman Holdings Limited', 'This is Harvey Norman')
-info['TRS.AX'] = RetailInfo('TRS.AX', 'Reject Shop Ltd', 'This is The Reject Shop')
-info['KGN.AX'] = RetailInfo('KGN.AX', 'Kogan.Com Limited', 'This is Kogan')
+info['WES.AX'] = RetailInfo('WES.AX', 'Wesfarmers Ltd', 'wesfarmers', 'This is Wesfarmers')
+info['WOW.AX'] = RetailInfo('WOW.AX', 'Woolworths Supermarkets', 'woolworths', 'This is Woolies')
+info['MYR.AX'] = RetailInfo('MYR.AX', 'MYER', 'myer', 'This is MYER')
+info['DMP.AX'] = RetailInfo('DMP.AX', 'Domino\'s Pizza Enterprises', 'dominos', 'This is Dominos')
+info['JBH.AX'] = RetailInfo('JBH.AX', 'JB Hi-Fi Limited', 'jbhifi', 'This is JB Hi-Fi')
+info['HVN.AX'] = RetailInfo('HVN.AX', 'Harvey Norman Holdings Limited', 'harveynorman', 'This is Harvey Norman')
+info['TRS.AX'] = RetailInfo('TRS.AX', 'Reject Shop Ltd', 'rejectshop', 'This is The Reject Shop')
+info['KGN.AX'] = RetailInfo('KGN.AX', 'Kogan.Com Limited', 'kogan', 'This is Kogan')
 
 companies_info = [info[x].__dict__ for x in sorted(info)]
 
