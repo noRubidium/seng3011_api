@@ -18,7 +18,6 @@ def not_found(_):
     return JsonResponse({'error': 'not found'}, status=404)
 
 urlpatterns = [
-    url(r'^$', views.index),
-    url(r'^companies$', views.get_all_companies),
-    url(r'^companies/<company>$', views.get_company_data)
+    url(r'^$', views.get_all_companies),
+    url(r'^(?P<company>\w{3}\.\w{2})$', views.get_company_data)
 ]

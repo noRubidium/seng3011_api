@@ -4,8 +4,7 @@ The view layer of the API, handle string beautify and stuff
 import json
 from django.http import HttpResponse, JsonResponse
 from .crocs import cross_origin
-from .models import RetailData
-from .utils import companies_info
+from .utils import companies_info, data
 
 @cross_origin
 def index(request):
@@ -35,6 +34,6 @@ def get_company_data(request, company):
     :return: JSON of details of company
     """
 
-    retail = retail_data(company)
+    retail = data[company].__dict__
 
-    return JsonResponse({'jess': 'cool'})
+    return JsonResponse(retail)
