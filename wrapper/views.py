@@ -21,7 +21,7 @@ def index(request, url):
     try:
         response = urllib2.urlopen(url)
         html = response.read()
-    except Error:
+    except Exception as e:
         return HttpResponse('Not Found', status=404)
     return HttpResponse(html)
 
