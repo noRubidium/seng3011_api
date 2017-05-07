@@ -20,7 +20,7 @@ def index(request, url):
     :return: http response
     """
     try:
-        response = urllib2.urlopen(url)
+        response = urllib2.urlopen('http://' + url)
         html = response.read()
     except Exception as e:
         logger.error('This is bad {} haha'.format(str(e.reason)))
