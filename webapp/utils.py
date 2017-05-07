@@ -12,7 +12,7 @@ class RetailInfo:
 
 
 class RetailDetails:
-    def __init__(self, id, name, url, info=None, categories=[], share_links=[], thumbnail=None):
+    def __init__(self, id, name, url, info=None, categories=None, share_links=None, thumbnail=None):
         self.id = id
         self.name = name
         self.url = url
