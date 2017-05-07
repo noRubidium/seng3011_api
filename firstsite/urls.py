@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^v3/', include('apiv3.urls')),
     url(r'^v4/', include('apiv4.urls')),
     url(r'^v5/', include('apiv5.urls')),
-    url(r'^companies/', include('webapp.urls'))
+    url(r'^rapper/', include('wrapper.urls')),
+    url(r'^companies/', include('webapp.urls')),
 ]
