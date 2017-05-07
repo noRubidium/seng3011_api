@@ -18,7 +18,10 @@ def index(request, url):
     :param url: url
     :return: http response
     """
-    response = urllib2.urlopen(url)
-    html = response.read()
+    try:
+        response = urllib2.urlopen(url)
+        html = response.read()
+    except Error:
+        return HttpResponse('Not Found', status=404)
     return HttpResponse(html)
 
