@@ -51,36 +51,36 @@ data['WES.AX']      = RetailDetails('WES.AX',
                                     categories['WES.AX'])
 data['WOW.AX']      = RetailDetails('WOW.AX',
                                    'Woolworths Supermarkets',
-                                   'www.woolworths.com.au',
+                                   'http://www.woolworths.com.au',
                                    'This is Woolworths',
                                    categories['WOW.AX'])
 data['MYR.AX']      = RetailDetails('MYR.AX',
                                     'MYER',
-                                    'www.myer.com.au',
+                                    'http://www.myer.com.au',
                                     'This is MYER',
                                     categories['MYR.AX'])
 data['DMP.AX']      = RetailDetails('DMP.AX',
                                     'Domino\'s Pizza Enterprises',
-                                    'www.dominos.com.au',
+                                    'http://www.dominos.com.au',
                                     'This is Domino\'',
                                     categories['DMP.AX'])
 data['JBH.AX']      = RetailDetails('JBH.AX',
                                     'JB Hi-Fi Limited',
-                                    'www.jbhifi.com.au',
+                                    'http://www.jbhifi.com.au',
                                     'This is JB Hi-Fi',
                                     categories['JBH.AX'])
 data['HVN.AX']      = RetailDetails('HVN.AX',
                                     'Harvey Norman Holdings Limited',
-                                    'www.harveynorman.com.au',
+                                    'http://www.harveynorman.com.au',
                                     'This is Harvey Norman',
                                     categories['HVN.AX'])
 data['TRS.AX']      = RetailDetails('TRS.AX',
                                     'Reject Shop Ltd',
-                                    'www.rejectshop.com.au',
+                                    'http://www.rejectshop.com.au',
                                     'This is The Reject Shop',
                                     categories['TRS.AX'])
 data['KGN.AX']      = RetailDetails('KGN.AX',
                                     'Kogan.Com Limited',
-                                    'www.kogan.com/au',
+                                    'http://www.kogan.com/au',
                                     'This is Kogan',
                                     categories['KGN.AX'])
