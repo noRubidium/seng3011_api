@@ -9,4 +9,4 @@ class ApiConfig(AppConfig):
     """
     Configuration of the App
     """
-    name = 'webapp'
+    name = 'wrapper'
