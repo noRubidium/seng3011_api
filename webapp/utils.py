@@ -36,14 +36,14 @@ info['KGN.AX'] = RetailInfo('KGN.AX', 'Kogan.Com Limited', 'kogan', 'This is Kog
 companies_info = [info[x].__dict__ for x in sorted(info)]
 
 categories = dict()
-categories['WES.AX'] = ['Food', 'HouseholdGood', 'ClothingFootwareAndPersonalAccessory', 'DepartmentStores', 'Other']
-categories['WOW.AX'] = ['Food', 'HouseholdGood', 'ClothingFootwareAndPersonalAccessory', 'DepartmentStores', 'Other']
-categories['MYR.AX'] = ['Food', 'HouseholdGood', 'ClothingFootwareAndPersonalAccessory', 'DepartmentStores', 'Other']
-categories['DMP.AX'] = ['Food', 'CafesRestaurantsAndTakeawayFood']
-categories['JBH.AX'] = ['HouseholdGood', 'DepartmentStores', 'Other']
-categories['HVN.AX'] = ['HouseholdGood', 'Other']
-categories['TRS.AX'] = ['Food', 'HouseholdGood', 'ClothingFootwareAndPersonalAccessory', 'Other']
-categories['KGN.AX'] = ['HouseholdGood', 'Other']
+categories['WES.AX'] = ['Total', 'Food', 'HouseholdGood', 'ClothingFootwareAndPersonalAccessory', 'DepartmentStores', 'Other']
+categories['WOW.AX'] = ['Total', 'Food', 'HouseholdGood', 'ClothingFootwareAndPersonalAccessory', 'DepartmentStores', 'Other']
+categories['MYR.AX'] = ['Total', 'Food', 'HouseholdGood', 'ClothingFootwareAndPersonalAccessory', 'DepartmentStores', 'Other']
+categories['DMP.AX'] = ['Total', 'Food', 'CafesRestaurantsAndTakeawayFood']
+categories['JBH.AX'] = ['Total', 'HouseholdGood', 'DepartmentStores', 'Other']
+categories['HVN.AX'] = ['Total', 'HouseholdGood', 'Other']
+categories['TRS.AX'] = ['Total', 'Food', 'HouseholdGood', 'ClothingFootwareAndPersonalAccessory', 'Other']
+categories['KGN.AX'] = ['Total', 'HouseholdGood', 'Other']
 
 data = dict()
 data['WES.AX']      = RetailDetails('WES.AX',
