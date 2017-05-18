@@ -42,7 +42,7 @@ def get_company_news(request, company):
         a.parse()
         a.nlp()
         news_dict = {'headline': a.title, 'date': a.publish_date, 'summary': a.summary, 'image': a.top_image}
-        news[str(counter)] =  news_dict
+        news[counter] =  news_dict
         counter += 1
 
     # print news
