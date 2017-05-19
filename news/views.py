@@ -95,6 +95,7 @@ def get_news_item_data(request, encodedurl):
     news_data['involved_companies'] = involved_codes
     news_data['headline'] = a.title
     news_data['date'] = a.publish_date
+    news_data['summary'] = a.summary
     news_data['text'] = a.text
 
     if url in news_urls_data.keys():
