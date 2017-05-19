@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^v5/', include('apiv5.urls')),
     url(r'^rapper/', include('wrapper.urls')),
     url(r'^companies/', include('webapp.urls')),
+    url(r'^cmp/', include('cmp_return.urls')),
 ]
