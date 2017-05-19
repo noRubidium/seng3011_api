@@ -26,11 +26,6 @@ def get_company_news(request, company):
     :return: JSON of news related to company
     """
 
-    natural_language_understanding = NaturalLanguageUnderstandingV1(
-    version='2017-02-27',
-    username='e453aa13-66ca-4349-8449-132275a299aa',
-    password='F0hlP1SmBDch')
-
     news = dict()
 
     url = 'http://www.afr.com/research-tools/{}/share-prices/shares-news'.format(company)
@@ -52,11 +47,7 @@ def get_company_news(request, company):
             summary = story.find('p').contents[0]
             date = story.find('time').contents[0]
 
-            response = natural_language_understanding.analyze(
-            url=url,
-            features=[features.Sentiment(), features.Emotion()])
-
-            news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url, 'sentiment': response['sentiment']['document'], 'emotion': response['emotion']['document']['emotion']}
+            news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url}
             news[counter] = news_dict
             news_urls_data[url] = news_dict
             counter += 1
