@@ -6,16 +6,15 @@ from django.http import JsonResponse
 from .crocs import cross_origin
 
 import urllib2
-import re
-from newspaper import Article
+# import re
+# from newspaper import Article
 from bs4 import BeautifulSoup
-
-import threading
-from Queue import Queue
 
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 import watson_developer_cloud.natural_language_understanding.features.v1 as \
     features
+
+from .utils import news_urls_data
 
 news = {}
 
@@ -46,19 +45,22 @@ def get_company_news(request, company):
 
     counter = 0
     for story in stories:
-        headline = story.find('a').contents[0]
-        summary = story.find('p').contents[0]
-        date = story.find('time').contents[0]
         url = story.find('a').get('href',None)
+        if url in news_urls_data.keys():
+            news[counter] = news_urls_data[url]
+            counter += 1
+        else:
+            headline = story.find('a').contents[0]
+            summary = story.find('p').contents[0]
+            date = story.find('time').contents[0]
 
-        response = natural_language_understanding.analyze(
-        url=url,
-        features=[features.Sentiment(), features.Emotion()])
+            response = natural_language_understanding.analyze(
+            url=url,
+            features=[features.Sentiment(), features.Emotion()])
 
-        print response
-
-        news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url, 'sentiment': response['sentiment']['document'], 'emotion': response['emotion']['document']['emotion']}
-        news[counter] = news_dict
-        counter += 1
+            news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url, 'sentiment': response['sentiment']['document'], 'emotion': response['emotion']['document']['emotion']}
+            news[counter] = news_dict
+            news_urls_data[url] = news_dict
+            counter += 1
 
     return JsonResponse(news)
