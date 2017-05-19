@@ -49,7 +49,7 @@ data = dict()
 data['WES.AX']      = RetailDetails('WES.AX',
                                     'Wesfarmers Ltd',
                                     'wesfarmers',
-                                    'www.wesfarmers.com.au/',
+                                    'www.wesfarmers.com.au',
                                     'Wesfarmers Limited is an Australian conglomerate, which owns Coles, Kmart and Target, with great interest predominantly in Australian and New Zealand retail.',
                                     categories['WES.AX'])
 data['WOW.AX']      = RetailDetails('WOW.AX',
