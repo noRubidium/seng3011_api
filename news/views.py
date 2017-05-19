@@ -10,6 +10,11 @@ import re
 from newspaper import Article
 from bs4 import BeautifulSoup
 
+import threading
+from Queue import Queue
+
+news = {}
+
 @cross_origin
 def get_company_news(request, company):
     """
@@ -28,23 +33,16 @@ def get_company_news(request, company):
     html = conn.read()
 
     soup = BeautifulSoup(html)
-    links = soup.find_all('a', href=re.compile('^http://www.afr.com/Page/Uuid/*'))
-
-    for tag in links:
-        link = tag.get('href',None)
-    	if link is not None:
-            news_urls.append(link)
+    stories = soup.find_all('div', class_='story__wof')
 
     counter = 0
-    for news_url in news_urls:
-        a = Article(news_url)
-        a.download()
-        a.parse()
-        a.nlp()
-        news_dict = {'headline': a.title, 'date': a.publish_date, 'summary': a.summary, 'image': a.top_image}
-        news[counter] =  news_dict
+    for story in stories:
+        headline = story.find('a').contents[0]
+        summary = story.find('p').contents[0]
+        date = story.find('time').contents[0]
+        url = story.find('a').get('href',None)
+        news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url}
+        news[counter] = news_dict
         counter += 1
-
-    # print news
 
     return JsonResponse(news)
