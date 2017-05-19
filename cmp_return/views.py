@@ -2,6 +2,7 @@
 The view layer of the API, handle string beautify and stuff
 """
 import logging
+import time
 from django.http import HttpResponse, JsonResponse
 
 from .crocs import cross_origin
@@ -19,7 +20,7 @@ def index(request, cmp):
     :param cmp: cmp
     :return: http response
     """
-    url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?period1=909666000&period2=1495116000&interval=1d&events=history&crumb=ujzI9fPyQBk'.format(cmp)
+    url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?period1=909666000&period2={}&interval=1d&events=history&crumb=ujzI9fPyQBk'.format(cmp, int(time.time()))
     try:
         opener = urllib2.build_opener()
         opener.addheaders.append(('Cookie', 'B=3pbbr0hcht280&b=3&s=pp'))
