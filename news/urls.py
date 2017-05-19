@@ -18,5 +18,6 @@ def not_found(_):
     return JsonResponse({'error': 'not found'}, status=404)
 
 urlpatterns = [
-    url(r'^(?P<company>\w{3})$', views.get_company_news)
+    url(r'^cmp/(?P<company>\w{3})$', views.get_company_news),
+    url(r'^lnk/(?P<encodedurl>.*=)$', views.get_news_item_data)
 ]
