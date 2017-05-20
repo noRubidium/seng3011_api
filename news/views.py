@@ -105,4 +105,6 @@ def get_news_item_data(request, encodedurl):
         news_data['sentiment'] = response['sentiment']['document']
         news_data['emotion'] = response['emotion']['document']['emotion']
 
+        individual_news_data[url] = news_data
+
     return JsonResponse(news_data)
