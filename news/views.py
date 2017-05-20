@@ -27,6 +27,7 @@ def get_company_news(request, company):
     """
 
     news = dict()
+    list_of_news = list()
 
     url = 'http://www.afr.com/research-tools/{}/share-prices/shares-news'.format(company)
 
@@ -36,21 +37,20 @@ def get_company_news(request, company):
     soup = BeautifulSoup(html)
     stories = soup.find_all('div', class_='story__wof')
 
-    counter = 0
     for story in stories:
         url = story.find('a').get('href',None)
         if url in news_urls_data.keys():
-            news[counter] = news_urls_data[url]
-            counter += 1
+            list_of_news.append(news_urls_data[url])
         else:
             headline = story.find('a').contents[0]
             summary = story.find('p').contents[0]
             date = story.find('time').contents[0]
 
             news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url}
-            news[counter] = news_dict
+            list_of_news.append(news_dict)
             news_urls_data[url] = news_dict
-            counter += 1
+
+    news['data'] = list_of_news
 
     return JsonResponse(news)
 
