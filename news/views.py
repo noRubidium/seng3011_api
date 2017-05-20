@@ -40,7 +40,6 @@ def get_company_news(request, company):
     for story in stories:
         url = story.find('a').get('href',None)
         if url in news_urls_data.keys():
-            news[counter] = news_urls_data[url]
             list_of_news.append(news_urls_data[url])
         else:
             headline = story.find('a').contents[0]
