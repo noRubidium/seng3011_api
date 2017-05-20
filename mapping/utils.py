@@ -3,13 +3,13 @@ industries = dict()
 
 # retail
 
-industries['A2M'] = ['ConsumerFood']
-industries['BAL'] = ['ConsumerFood']
-industries['BGA'] = ['ConsumerFood']
-industries['CCL'] = ['ConsumerFood']
+industries['A2M'] = ['Food']
+industries['BAL'] = ['Food']
+industries['BGA'] = ['Food']
+industries['CCL'] = ['Food']
 
-industries['WES'] = ['ConsumerFood', 'HouseholdGood', 'DepartmentStores']
-industries['WOW'] = ['ConsumerFood', 'HouseholdGood', 'DepartmentStores']
+industries['WES'] = ['Food', 'HouseholdGood', 'DepartmentStores']
+industries['WOW'] = ['Food', 'HouseholdGood', 'DepartmentStores']
 
 industries['ADH'] = ['HouseholdGood']
 industries['BLX'] = ['HouseholdGood']
@@ -34,31 +34,31 @@ industries['RFG'] = ['CafesRestaurantsAndTakeawayFood']
 
 # exports
 
-industries['AAC'] = ['FoodAndAgricultureProduction']
-industries['FNP'] = ['FoodAndAgricultureProduction']
-industries['SHV'] = ['FoodAndAgricultureProduction']
+industries['AAC'] = ['FoodAndLiveAnimals']
+industries['FNP'] = ['FoodAndLiveAnimals']
+industries['SHV'] = ['FoodAndLiveAnimals']
 
 industries['AVG'] = ['BeveragesAndTobacco']
 industries['CRW'] = ['BeveragesAndTobacco']
 industries['TWE'] = ['BeveragesAndTobacco']
 
-industries['BHP'] = ['Minerals']
-industries['BSL'] = ['Minerals']
-industries['RIO'] = ['Minerals']
+industries['BHP'] = ['MineralFuelLubricantAndRelatedMaterial']
+industries['BSL'] = ['MineralFuelLubricantAndRelatedMaterial']
+industries['RIO'] = ['MineralFuelLubricantAndRelatedMaterial']
 
-industries['ALS'] = ['Chemicals']
-industries['AJX'] = ['Chemicals']
+industries['ALS'] = ['ChemicalsAndRelatedProducts']
+industries['AJX'] = ['ChemicalsAndRelatedProducts']
 
 
 
 companies = dict()
 
-companies['ConsumerFood'] = ['A2M', 'BAL', 'BGA', 'CCL', 'WES', 'WOW']
+companies['Food'] = ['A2M', 'BAL', 'BGA', 'CCL', 'WES', 'WOW']
 companies['HouseholdGood'] = ['ADH', 'BLX', 'BRG', 'GFY', 'HVN', 'KGN', 'NCK', 'WES', 'WOW']
 companies['ClothingFootwareAndPersonalAccessory'] = ['BBG', 'KMD', 'MYR', 'SFH', 'SSG']
 companies['DepartmentStores'] = ['JBH', 'MYR', 'TRS', 'WES', 'WOW']
 companies['CafesRestaurantsAndTakeawayFood'] = ['CKF', 'DMP', 'RFG']
-companies['FoodAndAgricultureProduction'] = ['AAC', 'FNP', 'SHV']
+companies['FoodAndLiveAnimals'] = ['AAC', 'FNP', 'SHV']
 companies['BeveragesAndTobacco'] = ['AVG', 'CRW', 'TWE']
-companies['Minerals'] = ['BHP', 'BSL', 'RIO']
-companies['Chemicals'] = ['ALS', 'AJX']
+companies['MineralFuelLubricantAndRelatedMaterial'] = ['BHP', 'BSL', 'RIO']
+companies['ChemicalsAndRelatedProducts'] = ['ALS', 'AJX']
