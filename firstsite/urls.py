@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^companies/', include('webapp.urls')),
     url(r'^news/', include('news.urls')),
     url(r'^cmp/', include('cmp_return.urls')),
+    url(r'^mapping/', include('mapping.urls')),
 ]
