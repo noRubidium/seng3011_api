@@ -19,5 +19,6 @@ def not_found(_):
 
 urlpatterns = [
     url(r'^cmp/(?P<company>\w{3})$', views.get_company_industries),
-    url(r'^ind/(?P<industry>\w*)$', views.get_industry_companies)
+    url(r'^ind/(?P<industry>\w*)$', views.get_industry_companies),
+    url(r'^rel/(?P<company>\w{3})$', views.get_related_companies)
 ]

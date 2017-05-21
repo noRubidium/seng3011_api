@@ -34,3 +34,23 @@ def get_industry_companies(request, industry):
     response = {'companies': companies[industry]}
 
     return JsonResponse(response)
+
+@cross_origin
+def get_related_companies(request, company):
+    """
+    get the request, return industries the company belongs to
+    :param request: http request
+    :param company: company string (3 digit only)
+    :return: JSON of industries related to company
+    """
+
+    related_companies = list()
+    for i in industries[company]:
+        for c in companies[i]:
+            if c != company and c != related_companies:
+                related_companies.append(c)
+
+    related_companies.sort()
+    response = {'related_companies': related_companies}
+
+    return JsonResponse(response)
