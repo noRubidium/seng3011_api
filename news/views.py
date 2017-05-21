@@ -10,6 +10,7 @@ import urllib2
 from newspaper import Article
 from bs4 import BeautifulSoup
 import base64
+import datetime
 
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 import watson_developer_cloud.natural_language_understanding.features.v1 as \
@@ -44,7 +45,9 @@ def get_company_news(request, company):
         else:
             headline = story.find('a').contents[0]
             summary = story.find('p').contents[0]
-            date = story.find('time').contents[0]
+
+            dateobj = datetime.datetime.strptime(story.find('time').contents[0], '%d/%m/%Y')
+            date = datetime.date.strftime(dateobj, '%Y-%m-%d')
 
             news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url}
             list_of_news.append(news_dict)
