@@ -95,6 +95,7 @@ def get_news_item_data(request, encodedurl):
         news_data['date'] = a.publish_date
         news_data['summary'] = a.summary
         news_data['text'] = a.text
+        news_data['image'] = a.top_image
 
         natural_language_understanding = NaturalLanguageUnderstandingV1(
         version='2017-02-27',
@@ -107,6 +108,8 @@ def get_news_item_data(request, encodedurl):
 
         news_data['sentiment'] = response['sentiment']['document']
         news_data['emotion'] = response['emotion']['document']['emotion']
+
+        news_data['url'] = url
 
         individual_news_data[url] = news_data
 
