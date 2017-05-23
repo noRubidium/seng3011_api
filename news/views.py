@@ -47,7 +47,7 @@ def get_company_news(request, company):
             summary = story.find('p').contents[0]
 
             time_string = story.find('time').contents[0]
-            matches_date_format = re.match(r'\d\d/\d\d/\d{4}', time_string);
+            matches_date_format = re.match(r'\d+/\d+/\d+', time_string);
 
             if matches_date_format:
                 dateobj = datetime.datetime.strptime(time_string, '%d/%m/%Y')
