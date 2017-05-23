@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from .crocs import cross_origin
 
 import urllib2
-# import re
+import re
 from newspaper import Article
 from bs4 import BeautifulSoup
 import base64
@@ -46,7 +46,14 @@ def get_company_news(request, company):
             headline = story.find('a').contents[0]
             summary = story.find('p').contents[0]
 
-            dateobj = datetime.datetime.strptime(story.find('time').contents[0], '%d/%m/%Y')
+            time_string = story.find('time').contents[0]
+            matches_date_format = re.match(r'\d\d/\d\d/\d{4}', time_string);
+
+            if matches_date_format:
+                dateobj = datetime.datetime.strptime(time_string, '%d/%m/%Y')
+            else:
+                dateobj = datetime.datetime.now()
+
             date = datetime.date.strftime(dateobj, '%Y-%m-%d')
 
             news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url}
