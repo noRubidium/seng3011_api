@@ -47,7 +47,7 @@ def get_related_companies(request, company):
     related_companies = list()
     for i in industries[company]:
         for c in companies[i]:
-            if c != company and c != related_companies:
+            if c != company and c not in related_companies:
                 related_companies.append(c)
 
     related_companies.sort()
