@@ -39,14 +39,12 @@ industries['FNP'] = ['FoodAndLiveAnimals']
 industries['SHV'] = ['FoodAndLiveAnimals']
 
 industries['AVG'] = ['BeveragesAndTobacco']
-industries['CRW'] = ['BeveragesAndTobacco']
 industries['TWE'] = ['BeveragesAndTobacco']
 
 industries['BHP'] = ['MineralFuelLubricantAndRelatedMaterial']
 industries['BSL'] = ['MineralFuelLubricantAndRelatedMaterial']
 industries['RIO'] = ['MineralFuelLubricantAndRelatedMaterial']
 
-industries['ALS'] = ['ChemicalsAndRelatedProducts']
 industries['AJX'] = ['ChemicalsAndRelatedProducts']
 
 
@@ -59,6 +57,6 @@ companies['ClothingFootwareAndPersonalAccessory'] = ['BBG', 'KMD', 'MYR', 'SFH',
 companies['DepartmentStores'] = ['JBH', 'MYR', 'TRS', 'WES', 'WOW']
 companies['CafesRestaurantsAndTakeawayFood'] = ['CKF', 'DMP', 'RFG']
 companies['FoodAndLiveAnimals'] = ['AAC', 'FNP', 'SHV']
-companies['BeveragesAndTobacco'] = ['AVG', 'CRW', 'TWE']
+companies['BeveragesAndTobacco'] = ['AVG', 'TWE']
 companies['MineralFuelLubricantAndRelatedMaterial'] = ['BHP', 'BSL', 'RIO']
-companies['ChemicalsAndRelatedProducts'] = ['ALS', 'AJX']
+companies['ChemicalsAndRelatedProducts'] = ['AJX']
