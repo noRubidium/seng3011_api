@@ -22,6 +22,7 @@ def get_company_industries(request, company):
 
     return JsonResponse(response)
 
+
 @cross_origin
 def get_industry_companies(request, industry):
     """
@@ -35,6 +36,7 @@ def get_industry_companies(request, industry):
 
     return JsonResponse(response)
 
+
 @cross_origin
 def get_related_companies(request, company):
     """
@@ -44,13 +46,13 @@ def get_related_companies(request, company):
     :return: JSON of industries related to company
     """
 
-    related_companies = list()
+    related_companies = set()
     for i in industries[company]:
         for c in companies[i]:
-            if c != company and c not in related_companies:
-                related_companies.append(c)
+            if c != company:
+                related_companies.add(c)
 
-    related_companies.sort()
+    related_companies = list(related_companies).sort()
     response = {'related_companies': related_companies}
 
     return JsonResponse(response)

@@ -2,6 +2,9 @@
 The view layer of the API, handle string beautify and stuff
 """
 import json
+import os
+
+import errno
 from django.http import JsonResponse
 from .crocs import cross_origin
 
@@ -26,59 +29,82 @@ def get_company_news(request, company):
     :param company: company string (3 digit only)
     :return: JSON of news related to company
     """
-
     news = dict()
-    list_of_news = list()
+    filename = './db/news/company/{}.json'.format(company)
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+    try:
+        f = open(filename, 'r')
+        news = json.loads(f.read())
+        f.close()
+    except (IOError, ValueError):
+        list_of_news = list()
 
-    url = 'http://www.afr.com/research-tools/{}/share-prices/shares-news'.format(company)
+        url = 'http://www.afr.com/research-tools/{}/share-prices/shares-news'.format(company)
 
-    conn = urllib2.urlopen(url)
-    html = conn.read()
+        conn = urllib2.urlopen(url)
+        html = conn.read()
 
-    soup = BeautifulSoup(html)
-    stories = soup.find_all('div', class_='story__wof')
+        soup = BeautifulSoup(html)
+        stories = soup.find_all('div', class_='story__wof')
 
-    for story in stories:
-        url = story.find('a').get('href',None)
-        if url in news_urls_data.keys():
-            list_of_news.append(news_urls_data[url])
-        else:
-            headline = story.find('a').contents[0]
-            summary = story.find('p').contents[0]
-
-            time_string = story.find('time').contents[0]
-            matches_date_format = re.match(r'\d+/\d+/\d+', time_string);
-
-            if matches_date_format:
-                dateobj = datetime.datetime.strptime(time_string, '%d/%m/%Y')
+        for story in stories:
+            url = story.find('a').get('href', None)
+            if url in news_urls_data.keys():
+                list_of_news.append(news_urls_data[url])
             else:
-                dateobj = datetime.datetime.now()
+                headline = story.find('a').contents[0]
+                summary = story.find('p').contents[0]
 
-            date = datetime.date.strftime(dateobj, '%Y-%m-%d')
+                time_string = story.find('time').contents[0]
+                matches_date_format = re.match(r'\d+/\d+/\d+', time_string)
 
-            news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url}
-            list_of_news.append(news_dict)
-            news_urls_data[url] = news_dict
+                if matches_date_format:
+                    dateobj = datetime.datetime.strptime(time_string, '%d/%m/%Y')
+                else:
+                    dateobj = datetime.datetime.now()
 
-    news['data'] = list_of_news
+                date = datetime.date.strftime(dateobj, '%Y-%m-%d')
+
+                news_dict = {'headline': headline, 'date': date, 'summary': summary, 'url': url}
+                list_of_news.append(news_dict)
+                news_urls_data[url] = news_dict
+
+        news['data'] = list_of_news
+        f = open(filename, 'w+')
+        f.write(json.dumps(news))
+        f.close()
 
     return JsonResponse(news)
 
 
 @cross_origin
-def get_news_item_data(request, encodedurl):
+def get_news_item_data(request, encoded_url):
     """
     get the request, return data for the news article
     :param request: http request
-    :param news_url: url of the news article
+    :param encoded_url: url of the news article
     :return: JSON of news article data
     """
-    url = base64.b64decode(encodedurl)
     news_data = dict()
 
-    if url in individual_news_data.keys():
-        news_data = individual_news_data[url]
-    else:
+    filename = './db/news/lnk/{}.json'.format(encoded_url)
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+    try:
+        f = open(filename, 'r')
+        news_data = json.loads(f.read())
+        f.close()
+    except (IOError, ValueError):
+        url = base64.b64decode(encoded_url)
         conn = urllib2.urlopen(url)
         html = conn.read()
 
@@ -99,7 +125,7 @@ def get_news_item_data(request, encodedurl):
         a.nlp()
 
         news_data['headline'] = a.title
-        news_data['date'] = a.publish_date
+        news_data['date'] = datetime.date.strftime(a.publish_date, '%Y-%m-%d')
         news_data['summary'] = a.summary
         news_data['text'] = a.text
         news_data['image'] = a.top_image
@@ -118,6 +144,8 @@ def get_news_item_data(request, encodedurl):
 
         news_data['url'] = url
 
-        individual_news_data[url] = news_data
+        f = open(filename, 'w+')
+        f.write(json.dumps(news_data))
+        f.close()
 
     return JsonResponse(news_data)
