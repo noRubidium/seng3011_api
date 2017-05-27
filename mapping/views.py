@@ -52,7 +52,8 @@ def get_related_companies(request, company):
             if c != company:
                 related_companies.add(c)
 
-    related_companies = list(related_companies).sort()
+    related_companies = list(related_companies)
+    related_companies.sort()
     response = {'related_companies': related_companies}
 
     return JsonResponse(response)
