@@ -60,3 +60,24 @@ companies['FoodAndLiveAnimals'] = ['AAC', 'FNP', 'SHV']
 companies['BeveragesAndTobacco'] = ['AVG', 'TWE']
 companies['MineralFuelLubricantAndRelatedMaterial'] = ['BHP', 'BSL', 'RIO']
 companies['ChemicalsAndRelatedProducts'] = ['AJX']
+
+
+pes = dict()
+pes['Food'] = 32.60
+pes['HouseholdGood'] = 33.90
+pes['ClothingFootwareAndPersonalAccessory'] = 16.68
+pes['DepartmentStores'] = 22.93
+pes['CafesRestaurantsAndTakeawayFood'] = 2725.10
+pes['FoodAndLiveAnimals'] = 28.81
+pes['BeveragesAndTobacco'] = 20.05
+pes['MineralFuelLubricantAndRelatedMaterial'] = 12.20
+pes['ChemicalsAndRelatedProducts'] = 15.83
+pes['Total'] = 131.58
+
+
+def get_pe_private(industry):
+    return pes.get(industry, pes['Total'])
+
+
+def get_pe(all_industries):
+    return map(get_pe_private, all_industries)
