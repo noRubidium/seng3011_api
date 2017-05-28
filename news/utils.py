@@ -160,13 +160,13 @@ def get_summary(company):
     result['sentiment']['positive'] = dict()
     positives = filter(lambda n: n['sentiment']['label'] == 'positive', scores)
     result['sentiment']['positive']['count'] = len(positives)
-    result['sentiment']['positive']['total'] = reduce(sum_score, positives, 0) / len(positives)
+    result['sentiment']['positive']['total'] = reduce(sum_score, positives, 0) / len(positives) if len(positives) > 0 else 0
 
     # set negative
     result['sentiment']['negative'] = dict()
     negative = filter(lambda n: n['sentiment']['label'] == 'negative', scores)
     result['sentiment']['negative']['count'] = len(negative)
-    result['sentiment']['negative']['total'] = reduce(sum_score, negative, 0) / len(negative)
+    result['sentiment']['negative']['total'] = reduce(sum_score, negative, 0) / len(negative) if len(negative) > 0 else 0
 
     result['emotion'] = dict()
     reduce(sum_emotion, scores, result['emotion'])
