@@ -19,5 +19,6 @@ def not_found(_):
 
 urlpatterns = [
     url(r'^cmp/(?P<company>\w{3})$', views.get_company_news),
-    url(r'^lnk/(?P<encodedurl>.*=)$', views.get_news_item_data)
+    url(r'^lnk/(?P<encoded_url>.*=)$', views.get_news_item_data),
+    url(r'^summary/(?P<company>\w{3})$', views.get_company_summary),
 ]
